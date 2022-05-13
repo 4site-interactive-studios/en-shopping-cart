@@ -1,0 +1,95 @@
+.sc-info {
+  max-width: 1004px;
+  margin: 16px auto;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  min-height: 200px;
+  padding: 16px;
+  gap: 16px;
+  border-radius: 4px;
+  & > :first-child {
+    max-width: 175px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #606062;
+    border-radius: 4px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: 600;
+    margin: 24px 0;
+    p {
+      margin-top: 10px;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    &::before {
+      position: absolute;
+      left: calc(50% - 15px);
+      top: -10px;
+      margin: 0 auto;
+      content: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='27' viewBox='0 0 30 27' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M14.7595 21.6229L6.5 26.1553V9.5H23.5V26.1553L15.2405 21.6229L15 21.4909L14.7595 21.6229Z' stroke='%23606062'/><path d='M10.4796 3.25161C10.8119 3.82325 11.2488 4.55196 11.722 5.34117C12.5449 6.71372 13.4776 8.26928 14.1608 9.5H2.10794C1.55945 8.76231 0.902321 7.65888 0.628937 6.4365C0.335911 5.1263 0.482566 3.69345 1.68465 2.3781C4.4043 -0.597834 8.68544 0.165522 10.4796 3.25161Z' stroke='%23606062'/><path d='M19.5204 3.25161C19.1881 3.82325 18.7512 4.55196 18.278 5.34117C17.4551 6.71372 16.5224 8.26928 15.8392 9.5H27.8921C28.4406 8.76231 29.0977 7.65888 29.3711 6.4365C29.6641 5.1263 29.5174 3.69345 28.3154 2.3781C25.5957 -0.597834 21.3146 0.165522 19.5204 3.25161Z' stroke='%23606062'/></svg>");
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-size: 58px;
+      font-weight: 800;
+      font-family: "Raleway", sans-serif;
+      small {
+        color: inherit;
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .monthly-checkbox {
+    max-width: 550px;
+    padding: 15px 50px;
+    input {
+      position: absolute;
+      opacity: 0;
+      height: 0;
+      width: 0;
+      &:checked + label {
+        &::after {
+          content: "";
+          position: absolute;
+          left: -11px;
+          top: 8px;
+          width: 5px;
+          height: 10px;
+          border: solid #444;
+          border-width: 0 3px 3px 0;
+          transform: rotate(45deg);
+        }
+      }
+    }
+    label {
+      cursor: pointer;
+      position: relative;
+      padding-left: 20px;
+      display: block;
+      &::before {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: -20px;
+        width: 25px;
+        height: 25px;
+        border: 1px solid #444;
+        border-radius: 4px;
+        background-color: #fff;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+.sc-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  background-color: #418fde;
+  color: #fff;
+  .en__component--imageblock:first-of-type {
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+    align-self: flex-start;
+    max-width: 117px;
+    width: 100%;
+    img {
+      width: 100%;
+    }
+  }
+  .en__component--copyblock {
+    width: 50%;
+    margin: 0 70px 20px 0;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-top: 0;
+      font-family: "Raleway", sans-serif;
+      font-weight: 800;
+      text-align: left;
+    }
+    * {
+      color: #fff;
+    }
+  }
+  .en__component--imageblock:last-of-type {
+    max-height: 325px;
+    img {
+      width: 100%;
+      height: auto;
+      max-height: 325px;
+      object-fit: contain;
+      object-position: right top;
+    }
+  }
+}

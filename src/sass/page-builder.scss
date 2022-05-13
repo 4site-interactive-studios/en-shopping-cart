@@ -1,0 +1,33 @@
+#en__pagebuilder {
+  .sc-cards {
+    min-height: 200px !important;
+    &::before {
+      content: "SEARCH CARDS ON LIBRARY AND ADD HERE";
+      font-size: 1.3rem;
+      margin: 10px;
+      text-align: center;
+      width: 100%;
+    }
+    .block-other::before {
+      content: "" !important;
+      width: 200px;
+      height: 50px;
+      background-color: #999;
+      border-radius: 0;
+      z-index: 100;
+      position: absolute;
+      top: 180px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  .sc-info {
+    & > :first-child {
+      h1,
+      h2,
+      h3 {
+        font-size: 22px;
+      }
+    }
+  }
+}

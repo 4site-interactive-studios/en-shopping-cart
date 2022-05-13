@@ -1,0 +1,15 @@
+@import "mixins.scss";
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;800&display=swap");
+#en-shopping-cart {
+  .en__component--advrow {
+    max-width: 100%;
+  }
+  @import "./header.scss";
+  @import "./cards.scss";
+  @import "./info.scss";
+  @import "./elements.scss";
+  @import "./mobile.scss";
+}
+
+@import "./colors.scss";
+@import "./page-builder.scss";

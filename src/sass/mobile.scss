@@ -1,0 +1,42 @@
+@media (max-width: 600px), (max-device-width: 600px) {
+  .sc-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    .en__component--copyblock {
+      width: 90%;
+      margin: 30px auto;
+    }
+    .en__component--imageblock {
+      margin-right: 0;
+      margin-left: 0;
+      margin-top: 0;
+      align-self: center;
+      max-width: 100%;
+      width: 100%;
+      img {
+        width: 100% !important;
+        margin: auto;
+        object-position: center !important;
+      }
+    }
+  }
+  .sc-info {
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 0;
+  }
+  .sc-cards {
+    [data-card] {
+      &::before {
+        border: 2px solid #fff;
+      }
+      img {
+        display: none;
+      }
+      h1,
+      h2 {
+        margin-top: 70px;
+      }
+    }
+  }
+}

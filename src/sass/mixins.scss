@@ -1,0 +1,12 @@
+@mixin white-text {
+  color: #fff;
+  * {
+    color: #fff;
+    .decrease {
+      background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23FFFFFF'/><rect x='11' y='15' width='8' height='2' fill='%23FFFFFF'/></svg>") !important;
+    }
+    .increase {
+      background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23FFFFFF'/><rect x='11' y='15' width='8' height='1' fill='%23FFFFFF'/><rect x='15.5' y='11.5' width='8' height='1' transform='rotate(90 15.5 11.5)' fill='%23FFFFFF'/></svg>") !important;
+    }
+  }
+}

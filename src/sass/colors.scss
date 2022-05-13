@@ -1,0 +1,232 @@
+#en-shopping-cart {
+  .en__component {
+    &.bg-lightblue {
+      background-color: #e5ecef;
+      .en__component--copyblock {
+        * {
+          color: #606062;
+        }
+      }
+    }
+    &.bg-blue {
+      background-color: #418fde;
+    }
+    &.bg-white {
+      background-color: #fff;
+      .en__component--copyblock {
+        * {
+          color: #606062;
+        }
+      }
+    }
+    &.bg-magenta {
+      background-color: #b001b0;
+    }
+    &.bg-red {
+      background-color: #c72b50;
+    }
+    &.bg-green {
+      background-color: #00a859;
+    }
+    &.bg-yellow {
+      background-color: #f2c500;
+      .en__component--copyblock {
+        * {
+          color: #606062;
+        }
+      }
+    }
+    &.bg-orange {
+      background-color: #f7941d;
+    }
+    &.bg-purple {
+      background-color: #8c2d8c;
+    }
+    &.bg-pink {
+      background-color: #e535ce;
+    }
+    &.bg-lightgrey,
+    &.bg-lightgray {
+      background-color: #f5f5f5;
+      * {
+        color: #606062;
+      }
+    }
+    &.bg-grey,
+    &.bg-gray {
+      background-color: #e5ecef;
+      * {
+        color: #606062;
+      }
+    }
+    &.bg-darkgrey,
+    &.bg-darkgray {
+      background-color: #606062;
+    }
+    &.bg-black {
+      background-color: #000;
+    }
+    &.bg-transparent {
+      background-color: transparent;
+      * {
+        color: #606062;
+      }
+    }
+    &.bg-gradient {
+      background-image: linear-gradient(to bottom, #418fde, #00a859);
+    }
+  }
+  .sc-cards {
+    .bg-blue {
+      @include white-text;
+      &[data-selected="true"] {
+        border-color: #418fde;
+      }
+    }
+    .bg-white {
+      &[data-selected="true"] {
+        border-color: #000;
+      }
+      &::before {
+        background-color: #606062;
+      }
+      .sc-cards-amount * {
+        color: #fff;
+      }
+      * {
+        color: #606062;
+      }
+    }
+    .bg-magenta {
+      @include white-text;
+      &::before {
+        background-color: #b001b0;
+      }
+      &[data-selected="true"] {
+        border-color: #b001b0;
+      }
+    }
+    .bg-red {
+      @include white-text;
+      &::before {
+        background-color: #e6a6be;
+      }
+      &[data-selected="true"] {
+        border-color: #c72b50;
+      }
+    }
+    .bg-green {
+      @include white-text;
+      &::before {
+        background-color: #00a859;
+      }
+      &[data-selected="true"] {
+        border-color: #00a859;
+      }
+    }
+    .bg-yellow {
+      * {
+        color: #606062;
+      }
+      &::before {
+        background-color: #f2c500;
+      }
+      &[data-selected="true"] {
+        border-color: #f2c500;
+      }
+    }
+    .bg-orange {
+      @include white-text;
+      &::before {
+        background-color: #f7941d;
+      }
+      &[data-selected="true"] {
+        border-color: #f7941d;
+      }
+    }
+    .bg-purple {
+      @include white-text;
+      &::before {
+        background-color: #8c2d8c;
+      }
+      &[data-selected="true"] {
+        border-color: #8c2d8c;
+      }
+    }
+    .bg-pink {
+      @include white-text;
+      &::before {
+        background-color: #e535ce;
+      }
+      &[data-selected="true"] {
+        border-color: #c02cac;
+      }
+    }
+    .bg-lightgrey,
+    .bg-lightgray {
+      * {
+        color: #606062;
+      }
+      &::before {
+        background-color: #f5f5f5;
+      }
+      &[data-selected="true"] {
+        border-color: #f5f5f5;
+      }
+    }
+    .bg-grey,
+    .bg-gray {
+      * {
+        color: #606062;
+      }
+      &::before {
+        background-color: #e5ecef;
+      }
+      &[data-selected="true"] {
+        border-color: #e5ecef;
+      }
+    }
+    .bg-darkgrey,
+    .bg-darkgray {
+      @include white-text;
+      &::before {
+        background-color: #606062;
+      }
+      &[data-selected="true"] {
+        border-color: #606062;
+      }
+    }
+    .bg-black {
+      @include white-text;
+      &::before {
+        background-color: #000;
+      }
+      &[data-selected="true"] {
+        border-color: #000;
+      }
+    }
+    .bg-transparent {
+      * {
+        color: #606062;
+      }
+      .sc-cards-amount * {
+        color: #fff;
+      }
+      &::before {
+        background-color: #606062;
+      }
+      &[data-selected="true"] {
+        border-color: transparent;
+      }
+    }
+    .bg-gradient {
+      @include white-text;
+      &::before {
+        background-image: linear-gradient(to bottom, #00a859, #418fde);
+      }
+      &[data-selected="true"] {
+        border: 2px solid #00a859;
+      }
+    }
+  }
+}
