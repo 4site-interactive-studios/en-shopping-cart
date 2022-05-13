@@ -364,6 +364,12 @@ export class App {
       ? ""
       : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
+  private checkDebug() {
+    if (this.isDebug()) {
+      document.querySelector("body").setAttribute("data-debug", "true");
+    }
+  }
+
   private run() {
     this.setCardsAtttributes();
     this.createCardsAmounts();
@@ -374,6 +380,7 @@ export class App {
     this.addOtherAmount();
     this.addMonthlyCheckbox();
     this.updateFrequency();
+    this.checkDebug();
     window.setTimeout(() => {
       this.updateTotal();
     }, 500);

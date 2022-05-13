@@ -54,7 +54,7 @@
     }
     &.bg-grey,
     &.bg-gray {
-      background-color: #e5ecef;
+      background-color: #dedede;
       * {
         color: #606062;
       }
@@ -76,7 +76,8 @@
       background-image: linear-gradient(to bottom, #418fde, #00a859);
     }
   }
-  .sc-cards {
+  .sc-cards,
+  .sc-info {
     .bg-blue {
       @include white-text;
       &[data-selected="true"] {
@@ -180,10 +181,10 @@
         color: #606062;
       }
       &::before {
-        background-color: #e5ecef;
+        background-color: #dedede;
       }
       &[data-selected="true"] {
-        border-color: #e5ecef;
+        border-color: #dedede;
       }
     }
     .bg-darkgrey,

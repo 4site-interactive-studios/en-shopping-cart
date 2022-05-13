@@ -183,6 +183,9 @@
         padding: 0 15px;
         z-index: 10;
         line-height: 1;
+        * {
+          color: #606062 !important;
+        }
         .currency-symbol {
           font-family: "Raleway", sans-serif;
           font-size: 1.3rem;

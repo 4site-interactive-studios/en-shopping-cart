@@ -1,4 +1,7 @@
 #en__pagebuilder {
+  .hide {
+    background-color: #ff00001a !important;
+  }
   .sc-cards {
     min-height: 200px !important;
     &::before {
