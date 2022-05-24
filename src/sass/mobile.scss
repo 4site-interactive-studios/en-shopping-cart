@@ -1,4 +1,4 @@
-@media (max-width: 600px), (max-device-width: 600px) {
+@media (max-width: 1100px), (max-device-width: 1100px) {
   .sc-header {
     flex-wrap: wrap;
     justify-content: center;
@@ -19,7 +19,18 @@
         object-position: center !important;
       }
     }
+    .en__component--imageblock:first-of-type {
+      order: 1;
+    }
+    .en__component--copyblock {
+      order: 3;
+    }
+    .en__component--imageblock:last-of-type {
+      order: 2;
+    }
   }
+}
+@media (max-width: 600px), (max-device-width: 600px) {
   .sc-info {
     justify-content: center;
     flex-wrap: wrap;
@@ -31,11 +42,19 @@
         border: 2px solid #fff;
       }
       img {
-        display: none;
+        max-height: 150px;
+        object-position: cover;
       }
+    }
+    .en__component--copyblock.block-other {
       h1,
-      h2 {
-        margin-top: 70px;
+      h2,
+      h3 {
+        margin-top: 33px;
+        margin-bottom: 53px;
+      }
+      .block-other-amount {
+        top: 125px;
       }
     }
   }

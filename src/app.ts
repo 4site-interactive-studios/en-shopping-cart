@@ -5,6 +5,13 @@ export class App {
 
   private total = 0;
 
+  private currencies: { [key: string]: string } = {
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    CAD: "$",
+  };
+
   constructor() {
     if (this.isDebug()) {
       console.log("Shopping Cart: Debug mode is on");
@@ -47,11 +54,7 @@ export class App {
           card.setAttribute("data-amount", amountNumber.toString());
           card.setAttribute("data-quantity", quantity.toString());
           card.setAttribute("data-card", index.toString());
-          if (card.classList.contains("euro")) {
-            card.setAttribute("data-currency", "€");
-          } else {
-            card.setAttribute("data-currency", "$");
-          }
+          card.setAttribute("data-currency", this.getCurrency(card));
           if (quantity > 0) {
             card.setAttribute("data-selected", "true");
           }
@@ -62,7 +65,7 @@ export class App {
   private createCardsAmounts() {
     this.cardsNode.forEach((card) => {
       const amount = this.getCardAmount(card);
-      const currency = this.getCardCurrency(card);
+      const currency = this.getCurrency(card);
       const div = document.createElement("div");
       div.classList.add("sc-cards-amount");
       div.innerHTML = `<span class="currency">${currency}</span><span class="amount">${amount}</span>`;
@@ -111,13 +114,37 @@ export class App {
     }
     return 0;
   }
-  private getCardCurrency(card: HTMLElement) {
-    const currency = card.getAttribute("data-currency");
-    if (currency) {
-      return currency;
+  private getCurrency(card: HTMLElement | null) {
+    if (card) {
+      const currency = card.getAttribute("data-currency");
+      if (currency) {
+        return currency;
+      }
+      if (card.classList.contains("euro") || card.classList.contains("eur")) {
+        return this.currencies.EUR;
+      }
+      if (card.classList.contains("pound") || card.classList.contains("gbp")) {
+        return this.currencies.GBP;
+      }
+      if (card.classList.contains("dollar") || card.classList.contains("usd")) {
+        return this.currencies.USD;
+      }
+      if (
+        card.classList.contains("canadian") ||
+        card.classList.contains("cad")
+      ) {
+        return this.currencies.CAD;
+      }
+    }
+    const currency = document.querySelector(
+      '[name="transaction.paycurrency"]'
+    ) as HTMLInputElement;
+    if (currency && currency.value in this.currencies) {
+      return this.currencies[currency.value];
     }
     return "$";
   }
+
   private getCardQuantity(card: HTMLElement) {
     const quantity = card.getAttribute("data-quantity");
     if (quantity) {
@@ -157,15 +184,10 @@ export class App {
       if (otherStored !== "0") {
         blockOther.setAttribute("data-selected", "true");
       }
-      let currency = "$";
-      let currencyCode = "USD";
-      if (blockOther.classList.contains("euro")) {
-        blockOther.setAttribute("data-currency", "€");
-        currency = "€";
-        currencyCode = "EUR";
-      } else {
-        blockOther.setAttribute("data-currency", "$");
-      }
+      const currency = this.getCurrency(blockOther);
+      const currencyCode = Object.keys(this.currencies).find(
+        (key) => this.currencies[key] === currency
+      );
       const otherAmountWrapper = document.createElement("div");
       otherAmountWrapper.classList.add("block-other-amount");
       otherAmountWrapper.innerHTML = `
