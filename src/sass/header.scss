@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   margin: 0;
   padding: 0;
@@ -21,7 +21,7 @@
   }
   .en__component--copyblock {
     width: 50%;
-    margin: 0 70px 20px 0;
+    margin: 2rem 4.5rem 2rem 0;
     h1,
     h2,
     h3,

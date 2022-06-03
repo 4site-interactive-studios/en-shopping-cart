@@ -39,11 +39,25 @@
   .sc-cards {
     [data-card] {
       &::before {
-        border: 2px solid #fff;
+        content: none;
       }
-      img {
-        max-height: 150px;
-        object-position: cover;
+      img,
+      .sc-cards-amount {
+        display: none;
+      }
+      &.mobile-image {
+        &::before {
+          content: "";
+          border: 2px solid #fff;
+        }
+        img {
+          max-height: 150px;
+          object-position: cover;
+          display: block;
+        }
+        .sc-cards-amount {
+          display: flex;
+        }
       }
     }
     .en__component--copyblock.block-other {
