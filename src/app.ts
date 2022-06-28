@@ -393,6 +393,22 @@ export class App {
   }
 
   private run() {
+    while (
+      !this.checkNested(
+        (window as any).EngagingNetworks,
+        "require",
+        "_defined",
+        "enjs",
+        "setFieldValue"
+      )
+    ) {
+      if (this.isDebug())
+        console.log("4Site Shoppint Cart - Waiting for EngagingNetworks");
+      window.setTimeout(() => {
+        this.run();
+      }, 10);
+      return;
+    }
     this.setCardsAtttributes();
     this.createCardsAmounts();
     this.createCardsQuantity();
@@ -406,5 +422,14 @@ export class App {
     window.setTimeout(() => {
       this.updateTotal();
     }, 500);
+  }
+  private checkNested(obj: any, ...args: string[]) {
+    for (let i = 0; i < args.length; i++) {
+      if (!obj || !Object.getOwnPropertyDescriptor(obj, args[i])) {
+        return false;
+      }
+      obj = obj[args[i]];
+    }
+    return true;
   }
 }
