@@ -29,7 +29,7 @@
     box-sizing: border-box;
     transition: all 0.3s ease-in-out;
     &[data-selected="true"] {
-      border: 2px solid #1c5c9c;
+      border: 2px solid #3678ba;
     }
     .sc-cards-quantity {
       display: flex;
@@ -96,7 +96,7 @@
       left: 0;
       margin: 6px 0 0 6px;
       z-index: 1;
-      background-color: #1c5c9c;
+      background-color: #3678ba;
       color: #fff;
       padding: 24px 12px;
       border-radius: 50%;

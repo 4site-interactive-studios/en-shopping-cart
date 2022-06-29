@@ -29,7 +29,7 @@
       background-color: #00a859;
     }
     &.bg-yellow {
-      background-color: #f2c500;
+      background-color: #fff0ca;
       .en__component--copyblock {
         * {
           color: #606062;
@@ -43,7 +43,12 @@
       background-color: #8c2d8c;
     }
     &.bg-pink {
-      background-color: #e535ce;
+      background-color: #f2cfdc;
+      .en__component--copyblock {
+        * {
+          color: #606062;
+        }
+      }
     }
     &.bg-lightgrey,
     &.bg-lightgray {
@@ -109,6 +114,9 @@
     }
     .bg-red {
       @include white-text;
+      .sc-cards-amount * {
+        color: #606062 !important;
+      }
       &::before {
         background-color: #e6a6be;
       }
@@ -130,10 +138,13 @@
         color: #606062;
       }
       &::before {
-        background-color: #f2c500;
+        background-color: #db7d03;
+      }
+      .sc-cards-amount * {
+        color: #fff;
       }
       &[data-selected="true"] {
-        border-color: #f2c500;
+        border-color: #db7d03;
       }
     }
     .bg-orange {
@@ -155,12 +166,17 @@
       }
     }
     .bg-pink {
-      @include white-text;
+      * {
+        color: #606062;
+      }
       &::before {
-        background-color: #e535ce;
+        background-color: #c72b50;
+      }
+      .sc-cards-amount * {
+        color: #fff;
       }
       &[data-selected="true"] {
-        border-color: #c02cac;
+        border-color: #f2cfdc;
       }
     }
     .bg-lightgrey,
@@ -227,6 +243,13 @@
       }
       &[data-selected="true"] {
         border: 2px solid #00a859;
+      }
+    }
+  }
+  .sc-info {
+    .en__component {
+      &::before {
+        background-color: transparent !important;
       }
     }
   }
