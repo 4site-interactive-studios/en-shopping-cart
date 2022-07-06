@@ -10,3 +10,55 @@
     }
   }
 }
+
+@mixin theme(
+  $name,
+  $bg-color,
+  $bg-amount-color,
+  $border-selected-color,
+  $white-text: false,
+  $amount-white-text: false
+) {
+  .en__component:not(.en__component--formblock).#{$name} {
+    background-color: #{$bg-color};
+    @if $white-text == false {
+      .en__component--copyblock {
+        color: #606062;
+        * {
+          color: #606062;
+        }
+      }
+    } @else {
+      @include white-text;
+    }
+  }
+  .sc-cards,
+  .sc-info {
+    .#{$name} {
+      &[data-selected="true"] {
+        border-color: #{$border-selected-color};
+      }
+      &::before {
+        background-color: #{$bg-amount-color};
+      }
+      @if $amount-white-text == false {
+        .sc-cards-amount * {
+          color: #606062;
+        }
+      } @else {
+        .sc-cards-amount * {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+  .#{$name} .en__submit button {
+    background-color: #{$bg-color};
+    border-color: #{$bg-color};
+    @if $white-text == false {
+      color: #606062;
+    } @else {
+      color: #ffffff;
+    }
+  }
+}

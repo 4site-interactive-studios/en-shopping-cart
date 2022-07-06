@@ -1,245 +1,136 @@
 #en-shopping-cart {
-  .en__component {
-    &.bg-lightblue {
-      background-color: #e5ecef;
-      .en__component--copyblock {
-        * {
-          color: #606062;
-        }
-      }
-    }
-    &.bg-blue {
-      background-color: #418fde;
-    }
-    &.bg-white {
-      background-color: #fff;
-      .en__component--copyblock {
-        * {
-          color: #606062;
-        }
-      }
-    }
-    &.bg-magenta {
-      background-color: #b001b0;
-    }
-    &.bg-red {
-      background-color: #c72b50;
-    }
-    &.bg-green {
-      background-color: #00a859;
-    }
-    &.bg-yellow {
-      background-color: #fff0ca;
-      .en__component--copyblock {
-        * {
-          color: #606062;
-        }
-      }
-    }
-    &.bg-orange {
-      background-color: #f7941d;
-    }
-    &.bg-purple {
-      background-color: #8c2d8c;
-    }
-    &.bg-pink {
-      background-color: #f2cfdc;
-      .en__component--copyblock {
-        * {
-          color: #606062;
-        }
-      }
-    }
-    &.bg-lightgrey,
-    &.bg-lightgray {
-      background-color: #f5f5f5;
-      * {
-        color: #606062;
-      }
-    }
-    &.bg-grey,
-    &.bg-gray {
-      background-color: #dedede;
-      * {
-        color: #606062;
-      }
-    }
-    &.bg-darkgrey,
-    &.bg-darkgray {
-      background-color: #606062;
-    }
-    &.bg-black {
-      background-color: #000;
-    }
-    &.bg-transparent {
-      background-color: transparent;
-      * {
-        color: #606062;
-      }
-    }
+  @include theme(
+    $name: "bg-lightblue",
+    $bg-color: "#e5ecef",
+    $bg-amount-color: "#3678ba",
+    $border-selected-color: "#3678ba",
+    $white-text: false,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-blue",
+    $bg-color: "#3678ba",
+    $bg-amount-color: "#3678ba",
+    $border-selected-color: "#3678ba",
+    $white-text: true,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-white",
+    $bg-color: "#ffffff",
+    $bg-amount-color: "#606062",
+    $border-selected-color: "#000000",
+    $white-text: false,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-magenta",
+    $bg-color: "#b001b0",
+    $bg-amount-color: "#b001b0",
+    $border-selected-color: "#b001b0",
+    $white-text: true,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-red",
+    $bg-color: "#c72b50",
+    $bg-amount-color: "#e6a6be",
+    $border-selected-color: "#c72b50",
+    $white-text: true,
+    $amount-white-text: false
+  );
+  @include theme(
+    $name: "bg-green",
+    $bg-color: "#00a859",
+    $bg-amount-color: "#00a859",
+    $border-selected-color: "#00a859",
+    $white-text: true,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-yellow",
+    $bg-color: "#fff0ca",
+    $bg-amount-color: "#db7d03",
+    $border-selected-color: "#db7d03",
+    $white-text: false,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-orange",
+    $bg-color: "#db7d03",
+    $bg-amount-color: "#db7d03",
+    $border-selected-color: "#db7d03",
+    $white-text: true,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-purple",
+    $bg-color: "#8c2d8c",
+    $bg-amount-color: "#8c2d8c",
+    $border-selected-color: "#8c2d8c",
+    $white-text: true,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-pink",
+    $bg-color: "#f2cfdc",
+    $bg-amount-color: "#c72b50",
+    $border-selected-color: "#f2cfdc",
+    $white-text: false,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-lightgray",
+    $bg-color: "#f5f5f5",
+    $bg-amount-color: "#f5f5f5",
+    $border-selected-color: "#f5f5f5",
+    $white-text: false,
+    $amount-white-text: false
+  );
+  @include theme(
+    $name: "bg-gray",
+    $bg-color: "#dedede",
+    $bg-amount-color: "#dedede",
+    $border-selected-color: "#dedede",
+    $white-text: false,
+    $amount-white-text: false
+  );
+  @include theme(
+    $name: "bg-darkgray",
+    $bg-color: "#606062",
+    $bg-amount-color: "#606062",
+    $border-selected-color: "#606062",
+    $white-text: false,
+    $amount-white-text: false
+  );
+  @include theme(
+    $name: "bg-black",
+    $bg-color: "#000000",
+    $bg-amount-color: "#000000",
+    $border-selected-color: "#000000",
+    $white-text: false,
+    $amount-white-text: false
+  );
+  @include theme(
+    $name: "bg-transparent",
+    $bg-color: "transparent",
+    $bg-amount-color: "#606062",
+    $border-selected-color: "#606062",
+    $white-text: false,
+    $amount-white-text: true
+  );
+
+  .en__component:not(.en__component--formblock) {
     &.bg-gradient {
-      background-image: linear-gradient(to bottom, #418fde, #00a859);
+      background-image: linear-gradient(to bottom, #3678ba, #00a859);
     }
   }
   .sc-cards,
   .sc-info {
-    .bg-blue {
-      @include white-text;
-      &[data-selected="true"] {
-        border-color: #418fde;
-      }
-    }
-    .bg-white {
-      &[data-selected="true"] {
-        border-color: #000;
-      }
-      &::before {
-        background-color: #606062;
-      }
-      .sc-cards-amount * {
-        color: #fff;
-      }
-      * {
-        color: #606062;
-      }
-    }
-    .bg-magenta {
-      @include white-text;
-      &::before {
-        background-color: #b001b0;
-      }
-      &[data-selected="true"] {
-        border-color: #b001b0;
-      }
-    }
-    .bg-red {
-      @include white-text;
-      .sc-cards-amount * {
-        color: #606062 !important;
-      }
-      &::before {
-        background-color: #e6a6be;
-      }
-      &[data-selected="true"] {
-        border-color: #c72b50;
-      }
-    }
-    .bg-green {
-      @include white-text;
-      &::before {
-        background-color: #00a859;
-      }
-      &[data-selected="true"] {
-        border-color: #00a859;
-      }
-    }
-    .bg-yellow {
-      * {
-        color: #606062;
-      }
-      &::before {
-        background-color: #db7d03;
-      }
-      .sc-cards-amount * {
-        color: #fff;
-      }
-      &[data-selected="true"] {
-        border-color: #db7d03;
-      }
-    }
-    .bg-orange {
-      @include white-text;
-      &::before {
-        background-color: #f7941d;
-      }
-      &[data-selected="true"] {
-        border-color: #f7941d;
-      }
-    }
-    .bg-purple {
-      @include white-text;
-      &::before {
-        background-color: #8c2d8c;
-      }
-      &[data-selected="true"] {
-        border-color: #8c2d8c;
-      }
-    }
-    .bg-pink {
-      * {
-        color: #606062;
-      }
-      &::before {
-        background-color: #c72b50;
-      }
-      .sc-cards-amount * {
-        color: #fff;
-      }
-      &[data-selected="true"] {
-        border-color: #f2cfdc;
-      }
-    }
-    .bg-lightgrey,
-    .bg-lightgray {
-      * {
-        color: #606062;
-      }
-      &::before {
-        background-color: #f5f5f5;
-      }
-      &[data-selected="true"] {
-        border-color: #f5f5f5;
-      }
-    }
-    .bg-grey,
-    .bg-gray {
-      * {
-        color: #606062;
-      }
-      &::before {
-        background-color: #dedede;
-      }
-      &[data-selected="true"] {
-        border-color: #dedede;
-      }
-    }
-    .bg-darkgrey,
-    .bg-darkgray {
-      @include white-text;
-      &::before {
-        background-color: #606062;
-      }
-      &[data-selected="true"] {
-        border-color: #606062;
-      }
-    }
-    .bg-black {
-      @include white-text;
-      &::before {
-        background-color: #000;
-      }
-      &[data-selected="true"] {
-        border-color: #000;
-      }
-    }
-    .bg-transparent {
-      * {
-        color: #606062;
-      }
-      .sc-cards-amount * {
-        color: #fff;
-      }
-      &::before {
-        background-color: #606062;
-      }
-      &[data-selected="true"] {
-        border-color: #606062;
-      }
-    }
     .bg-gradient {
       @include white-text;
       &::before {
-        background-image: linear-gradient(to bottom, #00a859, #418fde);
+        background-image: linear-gradient(to bottom, #00a859, #3678ba);
       }
       &[data-selected="true"] {
         border: 2px solid #00a859;
