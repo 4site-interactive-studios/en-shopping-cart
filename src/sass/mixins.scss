@@ -55,10 +55,20 @@
   .#{$name} .en__submit button {
     background-color: #{$bg-color};
     border-color: #{$bg-color};
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out,
+      color 0.2s ease-in-out;
     @if $white-text == false {
       color: #606062;
     } @else {
       color: #ffffff;
+    }
+    &:hover {
+      color: #{$bg-color} !important;
+      @if $white-text == false {
+        background-color: #606062 !important;
+      } @else {
+        background-color: #f7f7fa !important;
+      }
     }
   }
 }
