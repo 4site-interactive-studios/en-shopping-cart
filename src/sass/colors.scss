@@ -100,16 +100,16 @@
     $bg-color: "#606062",
     $bg-amount-color: "#606062",
     $border-selected-color: "#606062",
-    $white-text: false,
-    $amount-white-text: false
+    $white-text: true,
+    $amount-white-text: true
   );
   @include theme(
     $name: "bg-black",
     $bg-color: "#000000",
     $bg-amount-color: "#000000",
     $border-selected-color: "#000000",
-    $white-text: false,
-    $amount-white-text: false
+    $white-text: true,
+    $amount-white-text: true
   );
   @include theme(
     $name: "bg-transparent",
