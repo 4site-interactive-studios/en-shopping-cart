@@ -12,3 +12,13 @@ h2,
 h3 {
   text-align: center;
 }
+#currency-calculator .en__field--pseudo-currencyConverter {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+#currency-calculator .currencySelectLabel {
+  margin: 0;
+}

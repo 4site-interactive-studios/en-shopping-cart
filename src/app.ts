@@ -317,6 +317,21 @@ export class App {
       "donationAmt",
       this.total
     );
+    const otherAmountField = document.querySelector(
+      'input[name="transaction.donationAmt.other"]'
+    ) as HTMLInputElement;
+    if (otherAmountField && otherAmountField.value !== "") {
+      const keyUpEvent = new Event("keyup");
+      otherAmountField.dispatchEvent(keyUpEvent);
+    } else {
+      const donationAmountCheckbox = document.querySelector(
+        'input[name="transaction.donationAmt"]:checked'
+      ) as HTMLInputElement;
+      if (donationAmountCheckbox) {
+        const clickEvent = new Event("click");
+        donationAmountCheckbox.dispatchEvent(clickEvent);
+      }
+    }
     this.updateLiveVariables("TOTAL", this.total.toString());
     return this.total;
   }
