@@ -1,5 +1,29 @@
 #en-shopping-cart {
   @include theme(
+    $name: "bg-teal",
+    $bg-color: "#027f8c",
+    $bg-amount-color: "#027f8c",
+    $border-selected-color: "#027f8c",
+    $white-text: true,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-peach",
+    $bg-color: "#f26e50",
+    $bg-amount-color: "#f26e50",
+    $border-selected-color: "#f26e50",
+    $white-text: true,
+    $amount-white-text: true
+  );
+  @include theme(
+    $name: "bg-maroon",
+    $bg-color: "#6d0333",
+    $bg-amount-color: "#6d0333",
+    $border-selected-color: "#6d0333",
+    $white-text: true,
+    $amount-white-text: true
+  );
+  @include theme(
     $name: "bg-lightblue",
     $bg-color: "#e5ecef",
     $bg-amount-color: "#3678ba",
@@ -25,16 +49,16 @@
   );
   @include theme(
     $name: "bg-magenta",
-    $bg-color: "#b001b0",
-    $bg-amount-color: "#b001b0",
-    $border-selected-color: "#b001b0",
+    $bg-color: "#f40655",
+    $bg-amount-color: "#f40655",
+    $border-selected-color: "#f40655",
     $white-text: true,
     $amount-white-text: true
   );
   @include theme(
     $name: "bg-red",
     $bg-color: "#c72b50",
-    $bg-amount-color: "#e6a6be",
+    $bg-amount-color: "#c72b50",
     $border-selected-color: "#c72b50",
     $white-text: true,
     $amount-white-text: false
