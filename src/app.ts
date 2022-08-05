@@ -66,8 +66,10 @@ export class App {
     this.cardsNode.forEach((card) => {
       const amount = this.getCardAmount(card);
       const currency = this.getCurrency(card);
+      const position = currency === this.currencies.EUR ? "right" : "left";
       const div = document.createElement("div");
       div.classList.add("sc-cards-amount");
+      div.classList.add(`position-${position}`);
       div.innerHTML = `<span class="currency">${currency}</span><span class="amount">${amount}</span>`;
       card.appendChild(div);
     });
@@ -285,6 +287,19 @@ export class App {
     if (liveVariables.length > 0) {
       liveVariables.forEach((variable) => {
         variable.innerText = value;
+      });
+    }
+    if (variableName === "FREQUENCY") {
+      const freqElements = document.querySelectorAll(
+        '[class*="show-frequency-"]'
+      ) as NodeListOf<HTMLDivElement>;
+      const freq = value === "" ? "single" : "monthly";
+      freqElements.forEach((element) => {
+        if (element.classList.contains(`show-frequency-${freq}`)) {
+          element.classList.remove("peta-hide");
+        } else {
+          element.classList.add("peta-hide");
+        }
       });
     }
   }

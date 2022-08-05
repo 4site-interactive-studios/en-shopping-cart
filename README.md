@@ -7,16 +7,19 @@ Introduction: (1min video https://share.cleanshot.com/8kl5AJ )
 - Creating the Header: (6min video https://share.cleanshot.com/lMoSDZ )
 - Different themes available: (3min video https://share.cleanshot.com/Lu7JH4 )
   You can choose between the following themes:
+  - **bg-teal**: #027f8c
+  - **bg-peach**: #f26e50
+  - **bg-maroon**: #6d0333
   - **bg-lightblue**: #e5ecef
   - **bg-blue**: #418fde
   - **bg-white**: #ffffff
-  - **bg-magenta**: #b001b0
+  - **bg-magenta**: #f40655
   - **bg-red**: #c72b50
   - **bg-green**: #00a859
-  - **bg-yellow**: #f5c500
-  - **bg-orange**: #f7941d
+  - **bg-yellow**: #fff0ca
+  - **bg-orange**: #db7d03
   - **bg-purple**: #8c2d8c
-  - **bg-pink**: #e535ce
+  - **bg-pink**: #f2cfdc
   - **bg-lightgray**: #f5f5f5
   - **bg-gray**: #dedede
   - **bg-darkgray**: #606062

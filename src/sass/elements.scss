@@ -1,9 +1,10 @@
 h1 {
   font-family: "Raleway", sans-serif;
   font-size: 30px;
-  margin: 20px auto;
   text-align: center;
   font-weight: 400;
+  color: #555;
+  margin: 1rem auto;
   strong {
     font-weight: bold;
   }
@@ -21,4 +22,16 @@ h3 {
 }
 #currency-calculator .currencySelectLabel {
   margin: 0;
+}
+.sc-form-row {
+  max-width: 1088px;
+  margin: 0 auto;
+}
+.en__component--imageblock img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  margin: 0;
+  display: block;
+  padding: 0;
 }
