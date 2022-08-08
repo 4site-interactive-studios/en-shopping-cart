@@ -40,8 +40,9 @@
   .en__component--imageblock:last-of-type {
     max-height: 325px;
     img {
-      width: 100%;
-      height: auto;
+      width: 100% !important;
+      max-width: 500px;
+      height: auto !important;
       max-height: 325px;
       object-fit: contain;
       object-position: right top;

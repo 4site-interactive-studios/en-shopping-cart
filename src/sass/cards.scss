@@ -154,17 +154,20 @@
       justify-content: space-between;
       padding-top: 0;
       padding-bottom: 0;
-
+      min-height: 350px;
       > * {
         width: 100%;
         margin: 0;
       }
       img {
-        margin: 0 -20px 0 -20px;
+        margin: 0;
         padding: 0;
         display: block;
-        width: 100%;
-        max-height: 232px;
+        width: 100% !important;
+        height: 50% !important;
+        position: absolute;
+        bottom: 0;
+        left: 0;
       }
       h1,
       h2,
@@ -184,9 +187,9 @@
         justify-content: space-between;
         align-items: center;
         position: absolute;
-        top: 220px;
+        top: 50%;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translate(-50%, -50%);
         padding: 0 15px;
         z-index: 10;
         line-height: 1;
