@@ -1,6 +1,6 @@
 #en-shopping-cart {
   @include theme(
-    $name: "bg-teal",
+    $name: "teal",
     $bg-color: "#027f8c",
     $bg-amount-color: "#027f8c",
     $border-selected-color: "#027f8c",
@@ -8,7 +8,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-peach",
+    $name: "peach",
     $bg-color: "#f26e50",
     $bg-amount-color: "#f26e50",
     $border-selected-color: "#f26e50",
@@ -16,7 +16,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-maroon",
+    $name: "maroon",
     $bg-color: "#6d0333",
     $bg-amount-color: "#6d0333",
     $border-selected-color: "#6d0333",
@@ -24,7 +24,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-lightblue",
+    $name: "lightblue",
     $bg-color: "#e5ecef",
     $bg-amount-color: "#3678ba",
     $border-selected-color: "#3678ba",
@@ -32,7 +32,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-blue",
+    $name: "blue",
     $bg-color: "#3678ba",
     $bg-amount-color: "#3678ba",
     $border-selected-color: "#3678ba",
@@ -40,7 +40,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-white",
+    $name: "white",
     $bg-color: "#ffffff",
     $bg-amount-color: "#606062",
     $border-selected-color: "#000000",
@@ -48,7 +48,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-magenta",
+    $name: "magenta",
     $bg-color: "#f40655",
     $bg-amount-color: "#f40655",
     $border-selected-color: "#f40655",
@@ -56,7 +56,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-red",
+    $name: "red",
     $bg-color: "#c72b50",
     $bg-amount-color: "#c72b50",
     $border-selected-color: "#c72b50",
@@ -64,7 +64,7 @@
     $amount-white-text: false
   );
   @include theme(
-    $name: "bg-green",
+    $name: "green",
     $bg-color: "#00a859",
     $bg-amount-color: "#00a859",
     $border-selected-color: "#00a859",
@@ -72,7 +72,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-yellow",
+    $name: "yellow",
     $bg-color: "#fff0ca",
     $bg-amount-color: "#db7d03",
     $border-selected-color: "#db7d03",
@@ -80,7 +80,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-orange",
+    $name: "orange",
     $bg-color: "#db7d03",
     $bg-amount-color: "#db7d03",
     $border-selected-color: "#db7d03",
@@ -88,7 +88,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-purple",
+    $name: "purple",
     $bg-color: "#8c2d8c",
     $bg-amount-color: "#8c2d8c",
     $border-selected-color: "#8c2d8c",
@@ -96,7 +96,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-pink",
+    $name: "pink",
     $bg-color: "#f2cfdc",
     $bg-amount-color: "#c72b50",
     $border-selected-color: "#f2cfdc",
@@ -104,7 +104,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-lightgray",
+    $name: "lightgray",
     $bg-color: "#f5f5f5",
     $bg-amount-color: "#f5f5f5",
     $border-selected-color: "#f5f5f5",
@@ -112,7 +112,7 @@
     $amount-white-text: false
   );
   @include theme(
-    $name: "bg-gray",
+    $name: "gray",
     $bg-color: "#dedede",
     $bg-amount-color: "#dedede",
     $border-selected-color: "#dedede",
@@ -120,7 +120,7 @@
     $amount-white-text: false
   );
   @include theme(
-    $name: "bg-darkgray",
+    $name: "darkgray",
     $bg-color: "#606062",
     $bg-amount-color: "#606062",
     $border-selected-color: "#606062",
@@ -128,7 +128,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-black",
+    $name: "black",
     $bg-color: "#000000",
     $bg-amount-color: "#000000",
     $border-selected-color: "#000000",
@@ -136,7 +136,7 @@
     $amount-white-text: true
   );
   @include theme(
-    $name: "bg-transparent",
+    $name: "transparent",
     $bg-color: "transparent",
     $bg-amount-color: "#606062",
     $border-selected-color: "#606062",

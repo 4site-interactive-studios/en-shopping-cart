@@ -42,14 +42,19 @@
       &::before {
         content: none;
       }
-      img,
+      p:first-child:not(.sc-card-image-flip),
       .sc-cards-amount {
         display: none;
       }
-      &.mobile-image {
+      &.mobile-image,
+      &[data-flip] {
         &::before {
           content: "";
           border: 2px solid #fff;
+        }
+        p:first-child {
+          max-height: 200px;
+          display: block;
         }
         img {
           max-height: 150px;
@@ -61,15 +66,37 @@
         }
       }
     }
-    .block-other {
-      min-height: 350px;
-    }
     .en__component--copyblock.block-other {
       h1,
       h2,
       h3 {
         margin-top: 33px;
         margin-bottom: 53px;
+      }
+    }
+  }
+  .sc-frequency {
+    .frequency-buttons {
+      gap: 5px;
+      max-width: 100%;
+      .monthly,
+      .onetime {
+        max-width: 100%;
+        .monthly-icon {
+          margin-left: 10px;
+          margin-right: 5px;
+        }
+      }
+    }
+    .monthly-message {
+      max-width: 100%;
+      display: flex;
+      &::before {
+        position: relative;
+        inset: 0;
+        display: block;
+        margin-right: 10px;
+        margin-bottom: 10px;
       }
     }
   }

@@ -30,6 +30,9 @@
     transition: all 0.3s ease-in-out;
     &[data-selected="true"] {
       border: 2px solid #3678ba;
+      .sc-card-image-flip .sc-card-image-inner {
+        transform: rotateY(180deg);
+      }
     }
     .sc-cards-quantity {
       display: flex;
@@ -115,6 +118,49 @@
     p {
       margin: 0;
       padding: 0;
+      &:first-child {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        height: 250px;
+        img {
+          max-width: calc(100% + 40px);
+          height: 100%;
+          max-height: 100%;
+          object-fit: cover;
+          margin: -30px -20px 20px;
+          display: block;
+        }
+      }
+      &.sc-card-image-flip {
+        perspective: 1000px;
+        width: calc(100% + 40px);
+        margin: -30px -20px 20px;
+        overflow: hidden;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        .sc-card-image-inner {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          transition: transform 0.6s;
+          transform-style: preserve-3d;
+          img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            margin: 0;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            &.sc-card-image-back {
+              transform: rotateY(180deg);
+            }
+          }
+        }
+      }
     }
     h1,
     h2,
@@ -130,14 +176,6 @@
         font-family: "proxima-nova", sans-serif;
         z-index: 10;
       }
-    }
-    img {
-      max-width: calc(100% + 40px);
-      height: auto;
-      max-height: 250px;
-      object-fit: cover;
-      margin: -30px -20px 20px;
-      display: block;
     }
     small {
       display: block;
@@ -168,6 +206,7 @@
         position: absolute;
         bottom: 0;
         left: 0;
+        object-fit: cover;
       }
       h1,
       h2,

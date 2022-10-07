@@ -34,3 +34,35 @@ h3 {
   display: block;
   padding: 0;
 }
+.amount-summary {
+  dl {
+    display: grid;
+    grid-template-columns: max-content auto;
+    background-color: #f7f7fa;
+    border-top: 1px solid #d7dadd;
+    border-bottom: 1px solid #d7dadd;
+    font-size: 14px;
+  }
+  dt {
+    grid-column-start: 1;
+    border-top: 1px solid #d7dadd;
+    margin: 0;
+    min-width: 130px;
+    padding: 10px 0;
+    font-weight: 700;
+    text-align: right;
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  dd {
+    grid-column-start: 2;
+    border-top: 1px solid #d7dadd;
+    margin: 0;
+    padding: 10px 20px;
+    &:nth-child(2) {
+      border-top: 0;
+    }
+  }
+}

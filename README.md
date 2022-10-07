@@ -30,3 +30,5 @@ Introduction: (1min video https://share.cleanshot.com/8kl5AJ )
 - Adding the Other Amount Block & Theming Cards (9min video https://share.cleanshot.com/ctQfVM )
 - Creating the Information Row (9min video https://share.cleanshot.com/sQyP6s )
 - Live Variables `TOTAL` & `FREQUENCY` (6min video https://share.cleanshot.com/MYiehY )
+
+- Using the flip image (7min video https://cln.sh/OfG9on )

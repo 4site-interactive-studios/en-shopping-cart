@@ -35,6 +35,114 @@ export class App {
     return this.cardsNode.length > 0;
   }
 
+  private run() {
+    while (
+      !this.checkNested(
+        (window as any).EngagingNetworks,
+        "require",
+        "_defined",
+        "enjs",
+        "setFieldValue"
+      )
+    ) {
+      if (this.isDebug())
+        console.log("4Site Shoppint Cart - Waiting for EngagingNetworks");
+      window.setTimeout(() => {
+        this.run();
+      }, 10);
+      return;
+    }
+    this.setCardsAtttributes();
+    this.createCardsAmounts();
+    this.createCardsQuantity();
+    this.createCardsImageFlip();
+    this.watchForQuantityChanges();
+    this.setQuantityClickEvent();
+    this.addLiveVariables();
+    this.addOtherAmount();
+    this.addMonthlyCheckbox();
+    this.checkDebug();
+    const monthlyStored =
+      localStorage.getItem(`sc-cards-${this.getPageId()}-monthly`) ||
+      (window as any).EngagingNetworks.require._defined.enjs.getFieldValue(
+        "recurrpay"
+      );
+    if (monthlyStored === "Y") {
+      this.updateFrequency("monthly");
+      const monthlyCheckbox = document.querySelector(
+        "#sc-monthly"
+      ) as HTMLInputElement;
+      if (monthlyCheckbox) {
+        monthlyCheckbox.checked = true;
+      }
+    } else {
+      this.updateFrequency("onetime");
+    }
+    this.renderFrequency();
+
+    window.setTimeout(() => {
+      this.updateTotal();
+    }, 500);
+  }
+
+  private renderFrequency() {
+    const freqRow = document.querySelector(
+      ".frequency-buttons"
+    ) as HTMLDivElement;
+    if (freqRow) {
+      const freqButtons = freqRow.querySelectorAll("div");
+      const recurrpay = (
+        window as any
+      ).EngagingNetworks.require._defined.enjs.getFieldValue("recurrpay");
+      const monthlyIcon = `
+      <div class="monthly-icon">
+      <svg id="monthly-icon-heart" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9.972 15.107c-.443-.427-1.508-1.255-2.393-1.871-2.635-1.752-2.997-2.013-4.063-2.889C1.546 8.737.701 7.127.701 4.95c0-1.066.08-1.468.422-2.107C1.707 1.776 2.551.972 3.617.498 4.381.142 4.763 0 6.03 0c1.328 0 1.61.142 2.393.521.966.474 1.93 1.468 2.152 2.155l.12.426.303-.592c1.749-3.386 7.34-3.338 9.29.095.624 1.089.684 3.41.141 4.712-.724 1.704-2.051 3.007-5.148 4.996-2.031 1.302-4.344 3.29-4.505 3.551-.16.332.02.048-.804-.758z"/>
+      </svg>
+      <svg id="monthly-icon-paw" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="p1" d="M6.45749 19.1425C9.19966 9.11877 16.8581 11.1737 18.5133 11.1738C20.1684 11.1739 28.192 9.52885 30.2178 19.1425C33.8793 36.5187 23.7721 29.6687 18.7973 29.6687C13.8225 29.6687 3.73797 36.3754 6.45749 19.1425Z"/>
+        <path d="M18 4C18 6.20914 15.9853 8 13.5 8C11.0147 8 9 6.20914 9 4C9 1.79086 11.0147 0 13.5 0C15.9853 0 18 1.79086 18 4Z"/>
+        <path d="M29 4C29 6.20914 26.9853 8 24.5 8C22.0147 8 20 6.20914 20 4C20 1.79086 22.0147 0 24.5 0C26.9853 0 29 1.79086 29 4Z"/>
+        <path d="M8 11C8 13.2091 6.20914 15 4 15C1.79086 15 0 13.2091 0 11C0 8.79086 1.79086 7 4 7C6.20914 7 8 8.79086 8 11Z"/>
+        <path d="M38 11C38 13.2091 36.2091 15 34 15C31.7909 15 30 13.2091 30 11C30 8.79086 31.7909 7 34 7C36.2091 7 38 8.79086 38 11Z"/>
+        <animate id="paw-to-heart" xlink:href="#p1" fill="freeze" attributeName="d" to="M19.6324 7.31636C20.1715 6.01409 20.1116 3.69369 19.4927 2.60453C18.4794 0.808119 16.7543 0.00272001 15.0118 0.0178418C12.5177 0.0178418 11.0213 0.999756 9.96961 3.10176C9.39422 1.05455 7.32189 0 5.33784 0C3.29283 0 1.46294 1.00755 0.466507 2.8413C-0.322742 4.32795 -0.0270404 6.46379 0.731797 7.90055C1.78089 9.88687 3.86495 11.2059 5.67154 12.4268C7.29271 13.5224 9.52481 14.9998 9.96904 15.9996C10.0236 15.4998 13.0165 13.2859 14.5215 12.3123C17.596 10.3234 18.9137 9.02114 19.6324 7.31636Z" dur="1s" begin="indefinite"/>
+      </svg>
+      </div>
+      `;
+
+      freqButtons.forEach((button) => {
+        const freqText = button.innerText;
+        const freq = button.className.split(" ")[0];
+        const freqChecked =
+          freq === "monthly" ? recurrpay === "Y" : recurrpay === "N";
+        const freqMarkup = `
+          <input id="frequency-${freq}" type="radio" name="sc-frequency" value="${freq}" ${
+          freqChecked ? "checked" : ""
+        } />
+          <label for="frequency-${freq}">
+            ${freq === "monthly" ? monthlyIcon : ""}
+            <span>${freqText}</span>
+          </label>
+        `;
+        button.innerHTML = freqMarkup;
+      });
+      const freqInputs = freqRow.querySelectorAll("input");
+      freqInputs.forEach((input) => {
+        input.addEventListener("change", (e) => {
+          const value = (e.target as HTMLInputElement).value;
+          this.updateFrequency(value);
+          const monthlyCheckbox = document.querySelector(
+            "#sc-monthly"
+          ) as HTMLInputElement;
+          if (monthlyCheckbox) {
+            monthlyCheckbox.checked = value === "monthly";
+            monthlyCheckbox.dispatchEvent(new Event("change"));
+          }
+        });
+      });
+    }
+  }
+
   private setCardsAtttributes() {
     const storedCards = JSON.parse(
       localStorage.getItem(`sc-cards-${this.getPageId()}`) || "[]"
@@ -62,6 +170,31 @@ export class App {
       }
     });
   }
+  private createCardsImageFlip() {
+    this.cardsNode.forEach((card) => {
+      const cardImageContainer = card.querySelector(
+        "p:first-child"
+      ) as HTMLParagraphElement;
+      if (cardImageContainer) {
+        const cardImage = cardImageContainer.querySelectorAll(
+          "img"
+        ) as NodeListOf<HTMLImageElement>;
+        if (cardImage.length > 1) {
+          const cardImageInner = document.createElement("div");
+          cardImageInner.classList.add("sc-card-image-inner");
+          cardImageContainer.classList.add("sc-card-image-flip");
+          cardImage[0].classList.add("sc-card-image-front");
+          cardImage[1].classList.add("sc-card-image-back");
+          cardImageInner.appendChild(cardImage[0]);
+          cardImageInner.appendChild(cardImage[1]);
+          cardImageContainer.innerHTML = "";
+          cardImageContainer.appendChild(cardImageInner);
+          card.setAttribute("data-flip", "true");
+        }
+      }
+    });
+  }
+
   private createCardsAmounts() {
     this.cardsNode.forEach((card) => {
       const amount = this.getCardAmount(card);
@@ -250,6 +383,14 @@ export class App {
           }
           this.updateFrequency();
           this.updateTotal();
+          const freqButtons = document.querySelectorAll(
+            ".frequency-buttons input"
+          ) as NodeListOf<HTMLInputElement>;
+          freqButtons.forEach((button) => {
+            button.checked =
+              (button.value === "onetime" && value === "N") ||
+              (button.value === "monthly" && value === "Y");
+          });
         });
       }
     }
@@ -350,15 +491,38 @@ export class App {
     this.updateLiveVariables("TOTAL", this.total.toString());
     return this.total;
   }
-  private updateFrequency() {
+  private updateFrequency(freq = "") {
     const monthlyInput = document.querySelector(
       "#sc-monthly"
     ) as HTMLInputElement;
-    if (monthlyInput) {
-      const monthly = monthlyInput.checked ? "Y" : "N";
+    let isMonthly = false;
+    if (monthlyInput && monthlyInput.checked) {
+      isMonthly = true;
+    }
+    if (freq === "monthly") {
+      isMonthly = true;
+    } else if (freq === "onetime") {
+      isMonthly = false;
+    }
+    const monthly = isMonthly ? "Y" : "N";
+    (window as any).EngagingNetworks.require._defined.enjs.setFieldValue(
+      "recurrpay",
+      monthly
+    );
+    const recurrpay = document.querySelectorAll(
+      'input[name="transaction.recurrpay"]'
+    ) as NodeListOf<HTMLInputElement>;
+    if (recurrpay.length > 0) {
+      recurrpay.forEach((input) => {
+        if (input.value === monthly) {
+          input.dispatchEvent(new Event("change"));
+        }
+      });
+    }
+    if (monthly === "Y") {
       (window as any).EngagingNetworks.require._defined.enjs.setFieldValue(
-        "recurrpay",
-        monthly
+        "recurrfreq",
+        "MONTHLY"
       );
     }
     const frequency = (
@@ -422,37 +586,6 @@ export class App {
     }
   }
 
-  private run() {
-    while (
-      !this.checkNested(
-        (window as any).EngagingNetworks,
-        "require",
-        "_defined",
-        "enjs",
-        "setFieldValue"
-      )
-    ) {
-      if (this.isDebug())
-        console.log("4Site Shoppint Cart - Waiting for EngagingNetworks");
-      window.setTimeout(() => {
-        this.run();
-      }, 10);
-      return;
-    }
-    this.setCardsAtttributes();
-    this.createCardsAmounts();
-    this.createCardsQuantity();
-    this.watchForQuantityChanges();
-    this.setQuantityClickEvent();
-    this.addLiveVariables();
-    this.addOtherAmount();
-    this.addMonthlyCheckbox();
-    this.updateFrequency();
-    this.checkDebug();
-    window.setTimeout(() => {
-      this.updateTotal();
-    }, 500);
-  }
   private checkNested(obj: any, ...args: string[]) {
     for (let i = 0; i < args.length; i++) {
       if (!obj || !Object.getOwnPropertyDescriptor(obj, args[i])) {

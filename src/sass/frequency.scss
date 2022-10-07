@@ -1,0 +1,146 @@
+.sc-frequency {
+  max-width: 1040px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  margin-bottom: 0;
+  .frequency-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 610px;
+    margin: auto;
+    gap: 20px;
+    position: relative;
+    .monthly,
+    .onetime {
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+      height: 60px;
+      margin: auto;
+      line-height: 1;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+      background-color: #f7f7fa;
+      position: relative;
+      p,
+      span {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 700;
+        font-family: "Open Sans", sans-serif;
+        color: #344857;
+        line-height: 1.2;
+      }
+      label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 10;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        border: solid 1px #d2d2d2;
+        background-color: #f7f7fa;
+        color: #344857;
+        .monthly-icon {
+          width: 28px;
+          height: 22px;
+          margin-right: 10px;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        svg {
+          fill: currentColor;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transition: transform 0.2s ease-in-out;
+          &#monthly-icon-paw {
+            transform: scale(0);
+          }
+          &#monthly-icon-heart {
+            transform: scale(0.8);
+          }
+        }
+        &:hover {
+          svg {
+            fill: currentColor;
+            &#monthly-icon-paw {
+              transform: scale(0.8);
+            }
+            &#monthly-icon-heart {
+              transform: scale(0);
+            }
+          }
+        }
+      }
+    }
+    input {
+      position: absolute;
+      opacity: 0;
+      height: 0;
+      width: 0;
+      z-index: -1;
+      &:checked + label {
+        background-color: #344857;
+        color: #f79210;
+        p,
+        span {
+          color: #fff;
+        }
+        svg {
+          &#monthly-icon-paw {
+            transform: scale(1);
+          }
+          &#monthly-icon-heart {
+            transform: scale(0);
+          }
+        }
+      }
+    }
+  }
+  .monthly-message {
+    max-width: 610px;
+    margin: 10px auto;
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: -30px;
+      width: 25px;
+      height: 45px;
+      background-image: url('data:image/svg+xml;utf8,<svg width="23" height="46" viewBox="0 0 23 46" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.561 8.588c-1.522.606-3.043 1.25-4.607 1.8-.705.262-1.47.468-2.223.5-1.024.043-1.99-.865-2.168-1.863-.127-.71.386-1.855 1.025-1.843 2.517.03 4.265-1.65 6.293-2.664 1.724-.866 3.3-2.016 5.025-2.882 1.25-.633 2.58-1.23 3.942-1.5 3.243-.64 5.756 1.595 5.31 4.807-.625 4.457-1.464 8.884-3.026 13.149-.313.826-.723 1.655-1.275 2.337-.846 1.041-2.82.563-3.07-.761-.202-1.114-.135-2.297-.107-3.46.041-1.781.179-3.567.271-5.506-.598.045-1.047-.052-1.252.13-3.405 3.22-6.23 6.88-8.021 11.231-1.51 3.643-2.069 7.401-.821 11.296 1.76 5.479 6.279 8.965 12.05 9.109.64.012 1.256-.053 1.72-.073.808.818.505 1.43-.042 1.782-1.224.787-2.587 1.038-4.064.887-6.882-.774-12.35-6.097-13.396-13.019C.53 28.007.985 24.1 2.586 20.316c1.32-3.112 3.118-5.916 5.173-8.576.696-.92 1.433-1.802 2.15-2.702-.102-.132-.225-.281-.348-.45z" fill="%23344857"/></svg>');
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    p {
+      font-family: "Kalam";
+      font-size: 16px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.29;
+      letter-spacing: -0.32px;
+      text-align: left;
+      color: #344857;
+      max-width: 500px;
+    }
+  }
+}
