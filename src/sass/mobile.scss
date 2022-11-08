@@ -13,6 +13,10 @@
       align-self: center;
       max-width: 100%;
       width: 100%;
+      &:last-of-type {
+        max-height: 350px;
+        height: 350px;
+      }
       img {
         width: 100% !important;
         margin: auto;
@@ -36,6 +40,18 @@
     justify-content: center;
     flex-wrap: wrap;
     border-radius: 0;
+    padding: 15px;
+    .gift-box-bold {
+      margin-top: 0;
+    }
+    .info-title {
+      h1,
+      h2,
+      h3 {
+        font-size: 26px;
+      }
+      font-size: 26px;
+    }
   }
   .sc-cards {
     [data-card] {
@@ -97,6 +113,16 @@
         display: block;
         margin-right: 10px;
         margin-bottom: 10px;
+      }
+    }
+  }
+}
+@media (max-width: 400px), (max-device-width: 400px) {
+  .sc-info {
+    .en__component--imageblock {
+      max-width: 50%;
+      img {
+        height: auto !important;
       }
     }
   }

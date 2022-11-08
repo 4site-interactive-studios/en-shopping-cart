@@ -54,6 +54,8 @@
   }
   .en__component--imageblock {
     border: 0 !important;
+    margin: 0;
+    padding: 0;
     &::before {
       content: none !important;
     }

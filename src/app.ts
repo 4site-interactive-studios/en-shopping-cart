@@ -131,6 +131,7 @@ export class App {
         input.addEventListener("change", (e) => {
           const value = (e.target as HTMLInputElement).value;
           this.updateFrequency(value);
+          localStorage.setItem(`sc-cards-${this.getPageId()}-monthly`, value);
           const monthlyCheckbox = document.querySelector(
             "#sc-monthly"
           ) as HTMLInputElement;
