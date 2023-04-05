@@ -12,7 +12,7 @@
   padding: 15px 50px;
   & > .gift-box,
   & > .gift-box-bold {
-    max-width: 175px;
+    max-width: 200px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -43,9 +43,9 @@
     h2,
     h3 {
       margin: 0;
-      font-size: 58px;
+      font-size: 48px;
       font-weight: 800;
-      font-family: "Raleway", sans-serif;
+      font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
       small {
         color: inherit;
         font-size: 1.5rem;

@@ -154,13 +154,13 @@ export class App {
       ) as HTMLParagraphElement;
       if (amountNode) {
         const amount = amountNode.innerText;
-        const amountRegex = amount.match(/\d+/g);
+        const amountRegex = amount.match(/(\d+)([,.](\d{1,2}))?/);
         const amountNumber = amountRegex
-          ? parseInt(amountRegex.join(""), 10)
+          ? parseFloat(amountRegex[1] + "." + (amountRegex[3] || "0"))
           : 0;
         const quantity = storedCards[index] || 0;
         if (amountNumber > 0) {
-          card.setAttribute("data-amount", amountNumber.toString());
+          card.setAttribute("data-amount", amountNumber.toFixed(2));
           card.setAttribute("data-quantity", quantity.toString());
           card.setAttribute("data-card", index.toString());
           card.setAttribute("data-currency", this.getCurrency(card));
@@ -199,12 +199,29 @@ export class App {
   private createCardsAmounts() {
     this.cardsNode.forEach((card) => {
       const amount = this.getCardAmount(card);
+      let amountHTML = "";
+      // check if amount is an int number
+      if (amount % 1 === 0) {
+        amountHTML = amount.toString();
+      } else {
+        // Separate the decimal part
+        let decimalPart = amount.toString().split(".")[1];
+        // If decimal part is only one digit, add a 0
+        if (decimalPart.length === 1) {
+          decimalPart += "0";
+        }
+        // Add a span to the decimal part, with 2 decimals
+        amountHTML = `${
+          amount.toString().split(".")[0]
+        }<span class="decimal">${decimalPart}</span>`;
+      }
+
       const currency = this.getCurrency(card);
       const position = currency === this.currencies.EUR ? "right" : "left";
       const div = document.createElement("div");
       div.classList.add("sc-cards-amount");
       div.classList.add(`position-${position}`);
-      div.innerHTML = `<span class="currency">${currency}</span><span class="amount">${amount}</span>`;
+      div.innerHTML = `<span class="currency">${currency}</span><span class="amount">${amountHTML}</span>`;
       card.appendChild(div);
     });
   }
@@ -246,7 +263,7 @@ export class App {
   private getCardAmount(card: HTMLElement) {
     const amount = card.getAttribute("data-amount");
     if (amount) {
-      return parseInt(amount, 10);
+      return parseFloat(amount);
     }
     return 0;
   }
@@ -489,7 +506,12 @@ export class App {
         donationAmountCheckbox.dispatchEvent(clickEvent);
       }
     }
-    this.updateLiveVariables("TOTAL", this.total.toString());
+    if (this.total % 1 !== 0) {
+      this.updateLiveVariables("TOTAL", this.total.toFixed(2));
+    } else {
+      this.updateLiveVariables("TOTAL", this.total.toString());
+    }
+
     return this.total;
   }
   private updateFrequency(freq = "") {

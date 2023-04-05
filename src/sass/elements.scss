@@ -1,5 +1,5 @@
 h1 {
-  font-family: "Raleway", sans-serif;
+  font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
   font-size: 30px;
   text-align: center;
   font-weight: 400;
@@ -27,7 +27,7 @@ h3 {
   max-width: 1030px;
   margin: 0 auto;
 }
-.en__component--imageblock img {
+.en__component--imageblock img:not(.mobile-hide) {
   max-width: 100%;
   height: auto;
   margin: 0;

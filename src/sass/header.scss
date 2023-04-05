@@ -8,7 +8,20 @@
   padding: 0;
   background-color: #3678ba;
   color: #fff;
-  .en__component--imageblock:first-of-type {
+  .logo-block {
+    p {
+      margin: 0;
+      &:last-child {
+        display: none;
+      }
+      img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+  .en__component--imageblock:first-of-type,
+  .logo-block {
     margin-right: 1.5rem;
     margin-left: 1.5rem;
     margin-top: 1.5rem;
@@ -18,7 +31,7 @@
       width: 100%;
     }
   }
-  .en__component--copyblock {
+  .en__component--copyblock:not(.logo-block) {
     width: 50%;
     margin: 2rem 4.5rem 2rem 0;
     align-self: center;
@@ -29,7 +42,7 @@
     h5,
     h6 {
       margin-top: 0;
-      font-family: "Raleway", sans-serif;
+      font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
       font-weight: 800;
       text-align: left;
     }
