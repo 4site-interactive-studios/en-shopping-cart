@@ -23,9 +23,9 @@
   }
   .en__component--imageblock:first-of-type,
   .logo-block {
-    margin-right: 1.5rem;
-    margin-left: 1.5rem;
-    margin-top: 1.5rem;
+    margin-right: 1.5rem !important;
+    margin-left: 1.5rem !important;
+    margin-top: 1.5rem !important;
     align-self: flex-start;
     width: auto;
     img {
