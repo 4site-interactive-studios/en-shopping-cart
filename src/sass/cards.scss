@@ -57,7 +57,7 @@
         background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='1' fill='%23606062'/><rect x='15.5' y='11.5' width='8' height='1' transform='rotate(90 15.5 11.5)' fill='%23606062'/></svg>");
       }
       .quantity {
-        font-family: "Raleway", sans-serif;
+        font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
         font-weight: bold;
         font-size: 32px;
         margin: 0 6px;
@@ -74,24 +74,26 @@
       z-index: 2;
       box-sizing: border-box;
       text-align: center;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
       color: #fff;
-      width: 72px;
-      height: 72px;
+      width: 82px;
+      height: 82px;
       display: flex;
       justify-content: center;
       align-items: center;
       line-height: 1;
-      font-family: "Raleway", sans-serif;
+      font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
+      .decimal {
+        font-size: 0.6em;
+        margin-top: 0.2em;
+        vertical-align: top;
+      }
       &.position-right {
         flex-direction: row-reverse;
       }
-      &.position-left {
-        .currency {
-          transform: translateY(-3px);
-        }
-      }
+      // &.position-left {
+      // }
       .currency {
         font-size: 1rem;
         text-transform: uppercase;
@@ -110,8 +112,8 @@
       color: #fff;
       padding: 24px 12px;
       border-radius: 50%;
-      width: 72px;
-      height: 72px;
+      width: 82px;
+      height: 82px;
       box-sizing: border-box;
       display: inline-block;
     }
@@ -165,7 +167,7 @@
     h1,
     h2,
     h3 {
-      font-family: "Raleway", sans-serif;
+      font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
       font-weight: bold;
       font-size: 24px;
       margin-bottom: 12px;
@@ -213,7 +215,7 @@
       h3 {
         margin-top: 80px;
         font-size: 34px;
-        font-family: "Raleway", sans-serif;
+        font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
         font-weight: 800;
         line-height: 1.15;
         text-align: center;
@@ -236,7 +238,7 @@
           color: #606062 !important;
         }
         .currency-symbol {
-          font-family: "Raleway", sans-serif;
+          font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
           font-size: 1.3rem;
           font-weight: 700;
         }

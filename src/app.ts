@@ -12,13 +12,22 @@ export class App {
     CAD: "$",
   };
 
+  private additionalComments: HTMLTextAreaElement | null =
+    document.querySelector("[name='transaction.comments']");
+
+  private cartItems = "";
+
   constructor() {
-    if (this.isDebug()) {
-      console.log("Shopping Cart: Debug mode is on");
-    }
+    this.log("Shopping Cart: Debug mode is on");
     if (!this.shouldRun()) {
-      console.log("Shopping Cart Not Running");
+      this.log("Shopping Cart Not Running");
       return;
+    }
+
+    // Check for Additional Comments, if not found, create it
+    if (!this.additionalComments) {
+      // Create Additional Comments field
+      this.createAdditionalComments();
     }
 
     // Document Load
@@ -45,8 +54,7 @@ export class App {
         "setFieldValue"
       )
     ) {
-      if (this.isDebug())
-        console.log("4Site Shoppint Cart - Waiting for EngagingNetworks");
+      this.log("4Site Shoppint Cart - Waiting for EngagingNetworks");
       window.setTimeout(() => {
         this.run();
       }, 10);
@@ -154,13 +162,13 @@ export class App {
       ) as HTMLParagraphElement;
       if (amountNode) {
         const amount = amountNode.innerText;
-        const amountRegex = amount.match(/\d+/g);
+        const amountRegex = amount.match(/(\d+)([,.](\d{1,2}))?/);
         const amountNumber = amountRegex
-          ? parseInt(amountRegex.join(""), 10)
+          ? parseFloat(amountRegex[1] + "." + (amountRegex[3] || "0"))
           : 0;
         const quantity = storedCards[index] || 0;
         if (amountNumber > 0) {
-          card.setAttribute("data-amount", amountNumber.toString());
+          card.setAttribute("data-amount", amountNumber.toFixed(2));
           card.setAttribute("data-quantity", quantity.toString());
           card.setAttribute("data-card", index.toString());
           card.setAttribute("data-currency", this.getCurrency(card));
@@ -199,12 +207,29 @@ export class App {
   private createCardsAmounts() {
     this.cardsNode.forEach((card) => {
       const amount = this.getCardAmount(card);
+      let amountHTML = "";
+      // check if amount is an int number
+      if (amount % 1 === 0) {
+        amountHTML = amount.toString();
+      } else {
+        // Separate the decimal part
+        let decimalPart = amount.toString().split(".")[1];
+        // If decimal part is only one digit, add a 0
+        if (decimalPart.length === 1) {
+          decimalPart += "0";
+        }
+        // Add a span to the decimal part, with 2 decimals
+        amountHTML = `${
+          amount.toString().split(".")[0]
+        }<span class="decimal">${decimalPart}</span>`;
+      }
+
       const currency = this.getCurrency(card);
       const position = currency === this.currencies.EUR ? "right" : "left";
       const div = document.createElement("div");
       div.classList.add("sc-cards-amount");
       div.classList.add(`position-${position}`);
-      div.innerHTML = `<span class="currency">${currency}</span><span class="amount">${amount}</span>`;
+      div.innerHTML = `<span class="currency">${currency}</span><span class="amount">${amountHTML}</span>`;
       card.appendChild(div);
     });
   }
@@ -246,9 +271,16 @@ export class App {
   private getCardAmount(card: HTMLElement) {
     const amount = card.getAttribute("data-amount");
     if (amount) {
-      return parseInt(amount, 10);
+      return parseFloat(amount);
     }
     return 0;
+  }
+  private getCardTitle(card: HTMLElement) {
+    const title = card.querySelector("h1, h2, h3, h4, h5, h6") as HTMLElement;
+    if (title) {
+      return title.innerText;
+    }
+    return "";
   }
   private getCurrency(card: HTMLElement | null) {
     if (card) {
@@ -409,7 +441,7 @@ export class App {
               const variableName = variable
                 .replace(/\[\[/g, "")
                 .replace(/\]\]/g, "");
-              // console.log(variableName);
+              // this.log(variableName);
               component.innerHTML = component.innerHTML.replace(
                 `[[${variableName}]]`,
                 "<span class='sc-live-variable' data-variable='" +
@@ -447,9 +479,16 @@ export class App {
   }
   private updateTotal() {
     this.total = 0;
+    this.cartItems = "";
     this.cardsNode.forEach((card) => {
       const amount = this.getCardAmount(card);
       const quantity = this.getCardQuantity(card);
+      const title = this.getCardTitle(card);
+      if (quantity > 0) {
+        this.cartItems = `['${quantity}','${title}','${amount.toFixed(
+          2
+        )}'] \r\n${this.cartItems}`;
+      }
       this.total += amount * quantity;
     });
     const otherAmount = document.querySelector(
@@ -460,10 +499,13 @@ export class App {
         parseFloat(otherAmount.value).toFixed(2)
       );
       if (otherAmountValue > 0) {
+        this.cartItems = `['1','Other','${otherAmountValue.toFixed(2)}'] \r\n${
+          this.cartItems
+        }`;
         this.total += otherAmountValue;
       }
     }
-    if (this.isDebug()) console.log("Shopping Cart Total:", this.total);
+    this.log("Shopping Cart Total:", this.total);
     const otherField = document.querySelector(
       "[name='transaction.donationAmt.other']"
     ) as HTMLInputElement;
@@ -489,7 +531,14 @@ export class App {
         donationAmountCheckbox.dispatchEvent(clickEvent);
       }
     }
-    this.updateLiveVariables("TOTAL", this.total.toString());
+    if (this.total % 1 !== 0) {
+      this.updateLiveVariables("TOTAL", this.total.toFixed(2));
+    } else {
+      this.updateLiveVariables("TOTAL", this.total.toString());
+    }
+
+    this.additionalComments.value = this.cartItems;
+
     return this.total;
   }
   private updateFrequency(freq = "") {
@@ -595,5 +644,65 @@ export class App {
       obj = obj[args[i]];
     }
     return true;
+  }
+
+  private createAdditionalComments() {
+    const formBlock = document.createElement("div");
+    formBlock.classList.add(
+      "en__component",
+      "en__component--formblock",
+      "hide"
+    );
+
+    const textField = document.createElement("div");
+    textField.classList.add("en__field", "en__field--text");
+
+    const textElement = document.createElement("div");
+    textElement.classList.add("en__field__element", "en__field__element--text");
+
+    const inputField = document.createElement("textarea");
+    inputField.classList.add(
+      "en__field__input",
+      "en__field__input--textarea",
+      "foursite-shopping-cart-added-input"
+    );
+    inputField.setAttribute("name", "transaction.comments");
+    inputField.setAttribute("value", "");
+    if (this.isDebug()) {
+      inputField.style.width = "100%";
+      inputField.setAttribute(
+        "placeholder",
+        "Additional Comments (Debug Mode)"
+      );
+    }
+
+    textElement.appendChild(inputField);
+    textField.appendChild(textElement);
+    formBlock.appendChild(textField);
+    const submitElement = document.querySelector(
+      ".en__submit"
+    ) as HTMLDivElement;
+    if (submitElement) {
+      const lastFormComponent = submitElement.closest(".en__component");
+      if (lastFormComponent) {
+        // Insert the new field after the submit button
+        lastFormComponent.parentNode?.insertBefore(
+          formBlock,
+          lastFormComponent.nextSibling
+        );
+      }
+    } else {
+      const form = document.querySelector("form");
+      if (form) {
+        form.appendChild(formBlock);
+      }
+    }
+    this.additionalComments = inputField;
+  }
+
+  public log(message: any, ...optionalParams: any[]) {
+    if (this.isDebug()) {
+      console.log(message, optionalParams);
+    }
   }
 }
