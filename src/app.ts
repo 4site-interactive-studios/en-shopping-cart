@@ -172,11 +172,15 @@ export class App {
           card.setAttribute("data-amount", amountNumber.toFixed(2));
           card.setAttribute("data-quantity", quantity.toString());
           card.setAttribute("data-card", index.toString());
-          card.setAttribute("data-currency", this.getCurrency(card));
+          card.setAttribute(
+            "data-currency-symbol",
+            this.getCurrencySymbol(card)
+          );
           card.setAttribute(
             "data-currency-position",
             this.getCurrencyPosition(card)
           );
+          card.setAttribute("data-currency-code", this.getCurrencyCode(card));
           if (quantity > 0) {
             card.setAttribute("data-selected", "true");
           }
@@ -229,7 +233,7 @@ export class App {
         }<span class="decimal">${decimalPart}</span>`;
       }
 
-      const currency = this.getCurrency(card);
+      const currency = this.getCurrencySymbol(card);
       const position = this.getCurrencyPosition(card);
       const div = document.createElement("div");
       div.classList.add("sc-cards-amount");
@@ -287,9 +291,9 @@ export class App {
     }
     return "";
   }
-  private getCurrency(card: HTMLElement | null) {
+  private getCurrencySymbol(card: HTMLElement | null) {
     if (card) {
-      const currency = card.getAttribute("data-currency");
+      const currency = card.getAttribute("data-currency-symbol");
       if (currency) {
         return currency;
       }
@@ -322,6 +326,38 @@ export class App {
       return this.currencies[currency.value];
     }
     return "$";
+  }
+
+  private getCurrencyCode(card: HTMLElement) {
+    const currency = card.getAttribute("data-currency-code");
+    if (currency) {
+      return currency;
+    }
+    if (card.classList.contains("euro") || card.classList.contains("eur")) {
+      return "EUR";
+    }
+    if (card.classList.contains("pound") || card.classList.contains("gbp")) {
+      return "GBP";
+    }
+    if (card.classList.contains("dollar") || card.classList.contains("usd")) {
+      return "USD";
+    }
+    if (card.classList.contains("canadian") || card.classList.contains("cad")) {
+      return "CAD";
+    }
+    if (
+      card.classList.contains("australian") ||
+      card.classList.contains("aud")
+    ) {
+      return "AUD";
+    }
+    const currencyCode = document.querySelector(
+      '[name="transaction.paycurrency"]'
+    ) as HTMLInputElement;
+    if (currencyCode && currencyCode.value in this.currencies) {
+      return currencyCode.value;
+    }
+    return "USD";
   }
 
   private getCurrencyPosition(card: HTMLElement) {
@@ -381,10 +417,8 @@ export class App {
       if (otherStored !== "0") {
         blockOther.setAttribute("data-selected", "true");
       }
-      const currency = this.getCurrency(blockOther);
-      const currencyCode = Object.keys(this.currencies).find(
-        (key) => this.currencies[key] === currency
-      );
+      const currency = this.getCurrencySymbol(blockOther);
+      const currencyCode = this.getCurrencyCode(blockOther);
       const otherAmountWrapper = document.createElement("div");
       otherAmountWrapper.classList.add("block-other-amount");
       otherAmountWrapper.innerHTML = `
