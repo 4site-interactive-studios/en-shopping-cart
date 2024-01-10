@@ -4,6 +4,8 @@ Introduction: (1min video https://share.cleanshot.com/8kl5AJ )
 
 ## How to use it:
 
+The Shopping Cart page will try to use the currency code from the "transaction.pay" hidden field. You can set the currency code position to the right of the amount by adding the `currency-right` class to either the card's row (global) or the card's container (specific).
+
 - Creating the Header: (6min video https://share.cleanshot.com/lMoSDZ )
 - Different themes available: (3min video https://share.cleanshot.com/Lu7JH4 )
   You can choose between the following themes:

@@ -10,6 +10,7 @@ export class App {
     EUR: "€",
     GBP: "£",
     CAD: "$",
+    AUD: "$",
   };
 
   private additionalComments: HTMLTextAreaElement | null =
@@ -172,6 +173,10 @@ export class App {
           card.setAttribute("data-quantity", quantity.toString());
           card.setAttribute("data-card", index.toString());
           card.setAttribute("data-currency", this.getCurrency(card));
+          card.setAttribute(
+            "data-currency-position",
+            this.getCurrencyPosition(card)
+          );
           if (quantity > 0) {
             card.setAttribute("data-selected", "true");
           }
@@ -225,7 +230,7 @@ export class App {
       }
 
       const currency = this.getCurrency(card);
-      const position = currency === this.currencies.EUR ? "right" : "left";
+      const position = this.getCurrencyPosition(card);
       const div = document.createElement("div");
       div.classList.add("sc-cards-amount");
       div.classList.add(`position-${position}`);
@@ -303,6 +308,12 @@ export class App {
       ) {
         return this.currencies.CAD;
       }
+      if (
+        card.classList.contains("australian") ||
+        card.classList.contains("aud")
+      ) {
+        return this.currencies.AUD;
+      }
     }
     const currency = document.querySelector(
       '[name="transaction.paycurrency"]'
@@ -311,6 +322,24 @@ export class App {
       return this.currencies[currency.value];
     }
     return "$";
+  }
+
+  private getCurrencyPosition(card: HTMLElement) {
+    const position = card.getAttribute("data-currency-position");
+    if (position) {
+      return position;
+    }
+    // Try to get the currency position from the card class (local)
+    if (card.classList.contains("currency-right")) {
+      return "right";
+    }
+    // Try to get the currency position from the row class (global)
+    const row = card.closest(".sc-cards") as HTMLElement;
+    if (row.classList.contains("currency-right")) {
+      return "right";
+    }
+    // Default position
+    return "left";
   }
 
   private getCardQuantity(card: HTMLElement) {
