@@ -423,7 +423,7 @@ export class App {
       otherAmountWrapper.classList.add("block-other-amount");
       otherAmountWrapper.innerHTML = `
       <span class="currency-symbol">${currency}</span>
-      <input id="sc-other-amount" type="text" inputmode="decimal" data-lpignore="true" autocomplete="off" value="${otherStored}" tabindex="1">
+      <input id="sc-other-amount" aria-label="Enter your custom donation amount" name="transaction.donationAmt.other-standin" type="text" inputmode="decimal" data-lpignore="true" autocomplete="off" value="${otherStored}" tabindex="1">
       <span class="currency-code">${currencyCode}</span>
       `;
       blockOther.appendChild(otherAmountWrapper);
