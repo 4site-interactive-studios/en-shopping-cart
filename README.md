@@ -34,3 +34,11 @@ The Shopping Cart page will try to use the currency code from the "transaction.p
 - Live Variables `TOTAL` & `FREQUENCY` (6min video https://share.cleanshot.com/MYiehY )
 
 - Using the flip image (7min video https://cln.sh/OfG9on )
+
+## Development
+
+- Clone the repository
+- Run `npm install`
+- Make changes to the `src` folder
+- Run `npm run build` to compile the changes
+- Deploy the content of the `dist` folder to Engaging Networks
