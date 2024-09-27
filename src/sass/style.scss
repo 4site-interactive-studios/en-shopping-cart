@@ -43,6 +43,11 @@ body[data-debug] {
     background-color: #ff00001a !important;
   }
 }
+body[data-item-selected="true"] #en-shopping-cart {
+  .sc-mobile-checkout {
+    bottom: 0;
+  }
+}
 #en-shopping-cart {
   .en__component--advrow {
     max-width: 100%;
@@ -52,6 +57,7 @@ body[data-debug] {
   @import "./cards.scss";
   @import "./info.scss";
   @import "./elements.scss";
+  @import "./mobile-checkout.scss";
   @import "./mobile.scss";
 }
 

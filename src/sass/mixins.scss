@@ -119,7 +119,8 @@ $fs-escape-chars: (
       color: #{$bg-color} !important;
     }
   }
-  .bg-#{$name} .en__submit button {
+  .bg-#{$name} .en__submit button,
+  .sc-mobile-checkout.#{$name} p {
     background-color: #{$bg-color};
     border-color: #{$bg-color};
     transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out,

@@ -6,6 +6,7 @@ module.exports = merge(common, {
   mode: "development",
   devtool: "source-map",
   devServer: {
+    server: "https",
     static: "./dist",
     headers: {
       "Access-Control-Allow-Origin": "*",

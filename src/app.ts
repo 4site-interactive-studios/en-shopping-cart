@@ -70,6 +70,7 @@ export class App {
     this.addLiveVariables();
     this.addOtherAmount();
     this.addMonthlyCheckbox();
+    this.addMobileCta();
     this.checkDebug();
     const monthlyStored =
       localStorage.getItem(`sc-cards-${this.getPageId()}-monthly`) ||
@@ -491,6 +492,36 @@ export class App {
       }
     }
   }
+  private addMobileCta() {
+    const mobileCta = document.querySelector(
+      ".sc-mobile-checkout"
+    ) as HTMLDivElement;
+    // When clicking on the mobile CTA, scroll to .en__field--firstName
+    if (mobileCta) {
+      mobileCta.addEventListener("click", () => {
+        const firstName = document.querySelector(
+          ".en__field--firstName"
+        ) as HTMLDivElement;
+        if (firstName) {
+          firstName.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      });
+      // When scrolling, hide the mobile CTA if the user scrolls past the .en__field--firstName
+      window.addEventListener("scroll", () => {
+        const firstName = document.querySelector(
+          ".en__field--firstName"
+        ) as HTMLDivElement;
+        if (firstName) {
+          const fieldPosition = firstName.getBoundingClientRect().top;
+          if (fieldPosition < window.innerHeight - 200) {
+            mobileCta.classList.add("hidden");
+          } else {
+            mobileCta.classList.remove("hidden");
+          }
+        }
+      });
+    }
+  }
   private addLiveVariables() {
     const textComponents = document.querySelectorAll(
       ".en__component--copyblock, .en__component--codeblock, .en__submit button"
@@ -598,6 +629,11 @@ export class App {
       this.updateLiveVariables("TOTAL", this.total.toFixed(2));
     } else {
       this.updateLiveVariables("TOTAL", this.total.toString());
+    }
+    if (this.total > 0) {
+      document.querySelector("body").setAttribute("data-item-selected", "true");
+    } else {
+      document.querySelector("body").removeAttribute("data-item-selected");
     }
 
     this.additionalComments.value = this.cartItems;
