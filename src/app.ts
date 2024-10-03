@@ -502,8 +502,15 @@ export class App {
         const firstName = document.querySelector(
           ".en__field--firstName"
         ) as HTMLDivElement;
-        if (firstName) {
+        if (firstName && !firstName.classList.contains("en__hidden")) {
           firstName.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+          const billingInfo = document.querySelector(
+            ".en__donation--billing--info"
+          ) as HTMLDivElement;
+          if (billingInfo && !billingInfo.classList.contains("en__hidden")) {
+            billingInfo.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
         }
       });
       // When scrolling, hide the mobile CTA if the user scrolls past the .en__field--firstName
@@ -511,12 +518,24 @@ export class App {
         const firstName = document.querySelector(
           ".en__field--firstName"
         ) as HTMLDivElement;
-        if (firstName) {
+        if (firstName && !firstName.classList.contains("en__hidden")) {
           const fieldPosition = firstName.getBoundingClientRect().top;
           if (fieldPosition < window.innerHeight - 200) {
             mobileCta.classList.add("hidden");
           } else {
             mobileCta.classList.remove("hidden");
+          }
+        } else {
+          const billingInfo = document.querySelector(
+            ".en__donation--billing--info"
+          ) as HTMLDivElement;
+          if (billingInfo && !billingInfo.classList.contains("en__hidden")) {
+            const fieldPosition = billingInfo.getBoundingClientRect().top;
+            if (fieldPosition < window.innerHeight - 200) {
+              mobileCta.classList.add("hidden");
+            } else {
+              mobileCta.classList.remove("hidden");
+            }
           }
         }
       });
