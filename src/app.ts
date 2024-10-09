@@ -496,48 +496,35 @@ export class App {
     const mobileCta = document.querySelector(
       ".sc-mobile-checkout"
     ) as HTMLDivElement;
-    // When clicking on the mobile CTA, scroll to .en__field--firstName
+    // When clicking on the mobile CTA, scroll to .en__field--emailAddress
     if (mobileCta) {
       mobileCta.addEventListener("click", () => {
-        const firstName = document.querySelector(
-          ".en__field--firstName"
-        ) as HTMLDivElement;
-        if (firstName && !firstName.classList.contains("en__hidden")) {
-          firstName.scrollIntoView({ behavior: "smooth", block: "center" });
-        } else {
-          const billingInfo = document.querySelector(
-            ".en__donation--billing--info"
-          ) as HTMLDivElement;
-          if (billingInfo && !billingInfo.classList.contains("en__hidden")) {
-            billingInfo.scrollIntoView({ behavior: "smooth", block: "center" });
-          }
-        }
+        this.scrollToPayment();
       });
-      // When scrolling, hide the mobile CTA if the user scrolls past the .en__field--firstName
+      // When scrolling, hide the mobile CTA if the user scrolls past the .en__field--emailAddress
       window.addEventListener("scroll", () => {
-        const firstName = document.querySelector(
-          ".en__field--firstName"
+        const paymentSection = document.querySelector(
+          ".sc-info"
         ) as HTMLDivElement;
-        if (firstName && !firstName.classList.contains("en__hidden")) {
-          const fieldPosition = firstName.getBoundingClientRect().top;
-          if (fieldPosition < window.innerHeight - 200) {
+        if (paymentSection) {
+          const paymentPosition = paymentSection.getBoundingClientRect().top;
+          if (paymentPosition < window.innerHeight - 200) {
             mobileCta.classList.add("hidden");
           } else {
             mobileCta.classList.remove("hidden");
           }
-        } else {
-          const billingInfo = document.querySelector(
-            ".en__donation--billing--info"
-          ) as HTMLDivElement;
-          if (billingInfo && !billingInfo.classList.contains("en__hidden")) {
-            const fieldPosition = billingInfo.getBoundingClientRect().top;
-            if (fieldPosition < window.innerHeight - 200) {
-              mobileCta.classList.add("hidden");
-            } else {
-              mobileCta.classList.remove("hidden");
-            }
-          }
         }
+      });
+    }
+  }
+  private scrollToPayment() {
+    const paymentSection = document.querySelector(".sc-info") as HTMLDivElement;
+    if (paymentSection) {
+      const paymentPosition = paymentSection.getBoundingClientRect().top;
+      // Scroll past the payment section
+      window.scrollTo({
+        top: window.scrollY + paymentPosition + paymentSection.clientHeight,
+        behavior: "smooth",
       });
     }
   }
