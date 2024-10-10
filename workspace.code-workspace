@@ -4,13 +4,13 @@
       "path": "."
     },
     {
-      "path": "../engrid-scripts"
-    },
-    {
       "path": "../en-show-if-amount"
     },
     {
       "path": "../PETAResources"
+    },
+    {
+      "path": "../engrid"
     }
   ],
   "settings": {}
