@@ -4,6 +4,7 @@
     .en__component--copyblock:nth-child(odd).block-other {
       width: calc(100% - 10px);
       max-width: 655px;
+      min-height: auto;
       img {
         height: 100% !important;
         width: 50% !important;
@@ -12,6 +13,7 @@
       h1,
       h2,
       h3 {
+        margin-top: 33px;
         margin-left: 52%;
         max-width: fit-content;
       }
@@ -210,8 +212,8 @@
         h2,
         h3 {
           font-size: 28px;
-          margin-top: 33px;
-          margin-bottom: 53px;
+          margin-top: 53px;
+          margin-bottom: 65px;
         }
       }
     }
@@ -245,18 +247,30 @@
 @media (max-width: 590px), (max-device-width: 590px) {
   .sc-cards {
     .en__component--copyblock {
-      justify-content: space-between;
       &:nth-child(even) {
         &.block-other {
           h1,
           h2,
           h3 {
+            margin-top: 20px;
             font-size: 24px;
           }
           .block-other-amount {
             width: 95%;
             padding: 0 10px;
           }
+        }
+      }
+      &:nth-child(odd) {
+        &.block-other {
+          h1,
+          h2,
+          h3 {
+            font-size: 20px;
+          }
+        }
+        .block-other-amount {
+          padding: 0 10px;
         }
       }
     }
