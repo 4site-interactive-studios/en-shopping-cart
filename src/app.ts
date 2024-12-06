@@ -523,7 +523,9 @@ export class App {
       const paymentPosition = paymentSection.getBoundingClientRect().top;
       // Scroll past the payment section
       window.scrollTo({
-        top: window.scrollY + paymentPosition + paymentSection.clientHeight,
+        // top: window.scrollY + paymentPosition + paymentSection.clientHeight,
+        // Scroll to the top of the Care Package Information
+        top: window.scrollY + paymentPosition,
         behavior: "smooth",
       });
     }
