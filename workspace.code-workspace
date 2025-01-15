@@ -11,6 +11,9 @@
     },
     {
       "path": "../engrid"
+    },
+    {
+      "path": "../peta-monthly-nudge"
     }
   ],
   "settings": {}
