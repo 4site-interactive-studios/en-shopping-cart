@@ -72,6 +72,14 @@
     $amount-white-text: true
   );
   @include theme(
+    $name: "fern",
+    $bg-color: "#597938",
+    $bg-amount-color: "#597938",
+    $border-selected-color: "#597938",
+    $white-text: true,
+    $amount-white-text: true
+  );
+  @include theme(
     $name: "yellow",
     $bg-color: "#fff0ca",
     $bg-amount-color: "#db7d03",

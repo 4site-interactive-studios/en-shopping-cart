@@ -18,6 +18,7 @@ The Shopping Cart page will try to use the currency code from the "transaction.p
   - **bg-magenta**: #f40655
   - **bg-red**: #c72b50
   - **bg-green**: #00a859
+  - **bg-fern**: #597938
   - **bg-yellow**: #fff0ca
   - **bg-orange**: #db7d03
   - **bg-purple**: #8c2d8c
