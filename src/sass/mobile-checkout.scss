@@ -1,0 +1,40 @@
+.sc-mobile-checkout {
+  display: none;
+  position: fixed;
+  bottom: -100vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 1000;
+  background-color: transparent;
+  text-align: center;
+  cursor: pointer;
+  max-width: 200px;
+  margin: 0 auto;
+  transition: bottom 0.3s ease-in-out;
+  &.hidden {
+    bottom: -100vh !important;
+  }
+  p {
+    margin: 10px auto;
+    width: 100%;
+    border: 0;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #344857;
+    color: #ffffff;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    &:hover {
+      background-color: #f7f7fa;
+      color: #344857;
+    }
+  }
+}

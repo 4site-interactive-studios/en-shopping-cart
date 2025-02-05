@@ -70,6 +70,7 @@ export class App {
     this.addLiveVariables();
     this.addOtherAmount();
     this.addMonthlyCheckbox();
+    this.addMobileCta();
     this.checkDebug();
     const monthlyStored =
       localStorage.getItem(`sc-cards-${this.getPageId()}-monthly`) ||
@@ -491,6 +492,44 @@ export class App {
       }
     }
   }
+  private addMobileCta() {
+    const mobileCta = document.querySelector(
+      ".sc-mobile-checkout"
+    ) as HTMLDivElement;
+    // When clicking on the mobile CTA, scroll to .en__field--emailAddress
+    if (mobileCta) {
+      mobileCta.addEventListener("click", () => {
+        this.scrollToPayment();
+      });
+      // When scrolling, hide the mobile CTA if the user scrolls past the .en__field--emailAddress
+      window.addEventListener("scroll", () => {
+        const paymentSection = document.querySelector(
+          ".sc-info"
+        ) as HTMLDivElement;
+        if (paymentSection) {
+          const paymentPosition = paymentSection.getBoundingClientRect().top;
+          if (paymentPosition < window.innerHeight - 200) {
+            mobileCta.classList.add("hidden");
+          } else {
+            mobileCta.classList.remove("hidden");
+          }
+        }
+      });
+    }
+  }
+  private scrollToPayment() {
+    const paymentSection = document.querySelector(".sc-info") as HTMLDivElement;
+    if (paymentSection) {
+      const paymentPosition = paymentSection.getBoundingClientRect().top;
+      // Scroll past the payment section
+      window.scrollTo({
+        // top: window.scrollY + paymentPosition + paymentSection.clientHeight,
+        // Scroll to the top of the Care Package Information
+        top: window.scrollY + paymentPosition,
+        behavior: "smooth",
+      });
+    }
+  }
   private addLiveVariables() {
     const textComponents = document.querySelectorAll(
       ".en__component--copyblock, .en__component--codeblock, .en__submit button"
@@ -598,6 +637,11 @@ export class App {
       this.updateLiveVariables("TOTAL", this.total.toFixed(2));
     } else {
       this.updateLiveVariables("TOTAL", this.total.toString());
+    }
+    if (this.total > 0) {
+      document.querySelector("body").setAttribute("data-item-selected", "true");
+    } else {
+      document.querySelector("body").removeAttribute("data-item-selected");
     }
 
     this.additionalComments.value = this.cartItems;
