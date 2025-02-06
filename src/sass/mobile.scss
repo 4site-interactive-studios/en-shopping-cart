@@ -94,7 +94,7 @@
     .en__component--copyblock {
       min-width: auto;
       width: calc(50% - 7px);
-      padding: 0;
+      padding: 0 0 50px 0;
       p:first-child {
         aspect-ratio: 32/25;
         margin: 0;
@@ -121,8 +121,9 @@
         font-size: 20px;
         line-height: 1.2;
         margin-top: 10px;
-        padding: 0 15px;
+        padding: 0 10px;
         & + p {
+          padding: 0 5px;
           font-size: 18px;
           line-height: 1.2;
         }
