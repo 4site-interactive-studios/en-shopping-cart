@@ -94,11 +94,11 @@
     .en__component--copyblock {
       min-width: auto;
       width: calc(50% - 7px);
-      padding: 10px 8px;
+      padding: 0;
       p:first-child {
         aspect-ratio: 32/25;
-        margin: -15px -10px 10px;
-        width: calc(100% + 40px);
+        margin: 0;
+        width: 100%;
         height: auto;
         img {
           margin: 0;
@@ -120,6 +120,8 @@
       h3 {
         font-size: 20px;
         line-height: 1.2;
+        margin-top: 10px;
+        padding: 0 15px;
         & + p {
           font-size: 18px;
           line-height: 1.2;
@@ -177,12 +179,6 @@
   }
   .sc-cards {
     [data-card] {
-      &::before {
-        content: none;
-      }
-      .sc-cards-amount {
-        display: none;
-      }
       &.mobile-image,
       &[data-flip] {
         &::before {
