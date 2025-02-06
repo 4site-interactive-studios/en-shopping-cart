@@ -63,3 +63,8 @@ body[data-item-selected="true"] #en-shopping-cart {
 
 @import "./colors.scss";
 @import "./page-builder.scss";
+
+// This is for PETA Germany only, break wording for the headings in the cards
+html[lang="de-DE"] {
+  @import "./peta-germany.scss";
+}
