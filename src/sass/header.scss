@@ -1,13 +1,19 @@
 .sc-header {
   position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
   margin: 0;
   padding: 0;
   background-color: #3678ba;
   color: #fff;
+  &:has(div.en__component:nth-child(3)) {
+    justify-content: space-between;
+    .en__component--copyblock {
+      margin-left: 0;
+    }
+  }
   .logo-block {
     width: auto !important;
     p {
@@ -34,7 +40,7 @@
   }
   .en__component--copyblock:not(.logo-block) {
     width: 50%;
-    margin: 2rem 4.5rem 2rem 0;
+    margin: 2rem 4.5rem 2rem 2rem;
     align-self: center;
     h1,
     h2,

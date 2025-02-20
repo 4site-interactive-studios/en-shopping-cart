@@ -1,0 +1,16 @@
+// Add custom CSS code for Peta Germany here
+.sc-cards {
+  .en__component--copyblock {
+    h1,
+    h2,
+    h3 {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      hyphens: auto;
+      @media (max-width: 767px) {
+        overflow-wrap: anywhere;
+        word-wrap: anywhere;
+      }
+    }
+  }
+}
