@@ -11,7 +11,8 @@
   &:has(div.en__component:nth-child(3)) {
     justify-content: space-between;
     .en__component--copyblock {
-      margin-left: 0;
+      width: 50%;
+      margin: 2rem 4.5rem 2rem 2rem;
     }
   }
   .logo-block {
@@ -39,8 +40,8 @@
     }
   }
   .en__component--copyblock:not(.logo-block) {
-    width: 50%;
-    margin: 2rem 4.5rem 2rem 2rem;
+    width: 100%;
+    margin: 2rem 4rem 2rem 4rem;
     align-self: center;
     h1,
     h2,
