@@ -11,6 +11,7 @@ export class App {
     GBP: "£",
     CAD: "$",
     AUD: "$",
+    CHF: "₣"
   };
 
   private additionalComments: HTMLTextAreaElement | null =
@@ -318,6 +319,11 @@ export class App {
       ) {
         return this.currencies.AUD;
       }
+      if( 
+        card.classList.contains("chf")
+      ) {
+        return this.currencies.CHF;
+      }
     }
     const currency = document.querySelector(
       '[name="transaction.paycurrency"]'
@@ -350,6 +356,11 @@ export class App {
       card.classList.contains("aud")
     ) {
       return "AUD";
+    }
+    if (
+      card.classList.contains("chf") 
+    ) {
+      return "CHF";
     }
     const currencyCode = document.querySelector(
       '[name="transaction.paycurrency"]'
