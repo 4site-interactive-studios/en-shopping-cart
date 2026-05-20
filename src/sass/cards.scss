@@ -253,11 +253,8 @@
       }
 
       .sc-add-back {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: center;
-        padding: 4px 10px 5px;
+        position: relative;
+        padding: 0 10px;
         background-color: var(--sc-add-back-bg);
         color: var(--sc-add-back-text) !important;
         border: 2px solid var(--sc-add-back-border);
@@ -268,6 +265,10 @@
         }
 
         .sc-add-back-controls {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -305,7 +306,10 @@
         }
 
         .sc-add-quantity-label-text {
-          width: 100%;
+          position: absolute;
+          bottom: 4px;
+          left: 0;
+          right: 0;
           text-align: center;
           font-size: 10px;
           font-family: "proxima-nova", sans-serif;
@@ -313,7 +317,6 @@
           text-transform: uppercase;
           letter-spacing: 0.4px;
           line-height: 1.1;
-          margin-top: 2px;
           word-break: break-word;
         }
       }
