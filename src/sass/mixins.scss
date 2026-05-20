@@ -102,6 +102,26 @@ $fs-escape-chars: (
           color: #ffffff;
         }
       }
+
+      .sc-cards-quantity.sc-cards-with-add {
+        @if $white-text == true {
+          --sc-add-bg: #ffffff;
+          --sc-add-text: #{$bg-color};
+          --sc-add-back-bg: #ffffff;
+          --sc-add-back-border: #ffffff;
+          --sc-add-back-text: #{$bg-color};
+        } @else {
+          --sc-add-bg: #{$bg-amount-color};
+          @if $amount-white-text == true {
+            --sc-add-text: #ffffff;
+          } @else {
+            --sc-add-text: #606062;
+          }
+          --sc-add-back-bg: #ffffff;
+          --sc-add-back-border: #{$bg-amount-color};
+          --sc-add-back-text: #606062;
+        }
+      }
     }
   }
   .sc-info {

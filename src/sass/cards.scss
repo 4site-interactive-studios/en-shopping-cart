@@ -36,6 +36,14 @@
       .sc-card-image-flip .sc-card-image-inner {
         transform: rotateY(180deg);
       }
+
+      .sc-cards-with-add .sc-add-inner {
+        transform: rotateY(180deg);
+      }
+    }
+
+    &.sc-card-has-add {
+      padding-bottom: 80px;
     }
 
     .sc-cards-quantity {
@@ -79,6 +87,215 @@
       & + p {
         position: absolute;
         bottom: 10px;
+      }
+    }
+
+    .sc-cards-quantity.sc-cards-with-add {
+      --sc-add-height: 55px;
+      --sc-add-radius: 10px;
+      --sc-add-title-size: 18px;
+      --sc-add-subtitle-size: 12px;
+      --sc-add-emoji-size: 32px;
+      --sc-add-bg: #3678ba;
+      --sc-add-text: #ffffff;
+      --sc-add-back-bg: #ffffff;
+      --sc-add-back-border: #3678ba;
+      --sc-add-back-text: #606062;
+      --sc-add-icon-stroke: "%23606062";
+
+      position: absolute;
+      bottom: 12px;
+      left: 5%;
+      right: 5%;
+      width: 90%;
+      height: var(--sc-add-height);
+      margin: 0;
+      perspective: 1200px;
+      display: block;
+
+      .sc-add-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.6s ease;
+      }
+
+      .sc-add-front,
+      .sc-add-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        border-radius: var(--sc-add-radius);
+        box-sizing: border-box;
+      }
+
+      .sc-add-button {
+        appearance: none;
+        -webkit-appearance: none;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        padding: 0 16px;
+        background-color: var(--sc-add-bg);
+        color: var(--sc-add-text) !important;
+        border: 0;
+        cursor: pointer;
+        font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
+        transition: filter 0.2s ease, transform 0.1s ease,
+          box-shadow 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        text-align: left;
+
+        * {
+          color: var(--sc-add-text) !important;
+        }
+
+        &:hover {
+          filter: brightness(1.08);
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+        }
+
+        &:active {
+          transform: scale(0.985);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--sc-add-bg);
+          outline-offset: 2px;
+        }
+      }
+
+      .sc-add-emoji {
+        position: relative;
+        flex-shrink: 0;
+        width: var(--sc-add-emoji-size);
+        height: var(--sc-add-emoji-size);
+
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          object-fit: contain;
+          transition: opacity 0.2s ease;
+          pointer-events: none;
+        }
+
+        .sc-add-emoji-animated {
+          opacity: 0;
+        }
+      }
+
+      .sc-add-button:hover,
+      .sc-add-button:focus-visible {
+        .sc-add-emoji-static {
+          opacity: 0;
+        }
+        .sc-add-emoji-animated {
+          opacity: 1;
+        }
+      }
+
+      .sc-add-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        flex-grow: 1;
+        min-width: 0;
+        line-height: 1.1;
+      }
+
+      .sc-add-subtitle {
+        font-size: var(--sc-add-subtitle-size);
+        font-weight: 400;
+        opacity: 0.85;
+        margin-bottom: 3px;
+        text-align: left;
+      }
+
+      .sc-add-title {
+        font-size: var(--sc-add-title-size);
+        font-weight: 800;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+      }
+
+      .sc-add-back {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 14px;
+        background-color: var(--sc-add-back-bg);
+        color: var(--sc-add-back-text) !important;
+        border: 2px solid var(--sc-add-back-border);
+        transform: rotateY(180deg);
+
+        * {
+          color: var(--sc-add-back-text) !important;
+        }
+
+        .decrease,
+        .increase {
+          width: 30px;
+          height: 30px;
+          flex-shrink: 0;
+        }
+
+        .decrease {
+          background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='2' fill='%23606062'/></svg>");
+        }
+
+        .increase {
+          background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='1' fill='%23606062'/><rect x='15.5' y='11.5' width='8' height='1' transform='rotate(90 15.5 11.5)' fill='%23606062'/></svg>");
+        }
+
+        .sc-add-quantity-label {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          flex-grow: 1;
+          line-height: 1;
+          padding: 0 8px;
+          min-width: 0;
+
+          .quantity {
+            font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial,
+              sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0;
+            width: auto;
+          }
+
+          .sc-add-quantity-label-text {
+            font-size: 11px;
+            font-family: "proxima-nova", sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.7;
+            margin-top: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+          }
+        }
       }
     }
 
