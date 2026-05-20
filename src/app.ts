@@ -11,6 +11,7 @@ export class App {
     GBP: "£",
     CAD: "$",
     AUD: "$",
+    CHF: "₣",
   };
 
   private additionalComments: HTMLTextAreaElement | null =
@@ -127,8 +128,8 @@ export class App {
           freq === "monthly" ? recurrpay === "Y" : recurrpay === "N";
         const freqMarkup = `
           <input id="frequency-${freq}" type="radio" name="sc-frequency" value="${freq}" ${
-          freqChecked ? "checked" : ""
-        } />
+            freqChecked ? "checked" : ""
+          } />
           <label for="frequency-${freq}">
             ${freq === "monthly" ? monthlyIcon : ""}
             <span>${freqText}</span>
@@ -319,6 +320,9 @@ export class App {
       ) {
         return this.currencies.AUD;
       }
+      if (card.classList.contains("chf")) {
+        return this.currencies.CHF;
+      }
     }
     const currency = document.querySelector(
       '[name="transaction.paycurrency"]'
@@ -351,6 +355,9 @@ export class App {
       card.classList.contains("aud")
     ) {
       return "AUD";
+    }
+    if (card.classList.contains("chf")) {
+      return "CHF";
     }
     const currencyCode = document.querySelector(
       '[name="transaction.paycurrency"]'
