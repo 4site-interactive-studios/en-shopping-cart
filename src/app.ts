@@ -276,6 +276,11 @@ export class App {
   private buildAddButtonMarkup(addEl: HTMLElement, quantity: number) {
     const iconName = addEl.getAttribute("data-icon") || "";
     const subtitle = addEl.getAttribute("data-subtitle") || "";
+    const subtitlePosition =
+      (addEl.getAttribute("data-subtitle-position") || "above").toLowerCase() ===
+      "below"
+        ? "below"
+        : "above";
     const quantityLabel = addEl.getAttribute("data-quantity-label") || "";
     const titleSize = addEl.getAttribute("data-title-size") || "";
     const subtitleSize = addEl.getAttribute("data-subtitle-size") || "";
@@ -307,14 +312,18 @@ export class App {
     const subtitleMarkup = subtitle
       ? `<span class="sc-add-subtitle">${subtitle}</span>`
       : "";
+    const titleMarkup = `<span class="sc-add-title">${title}</span>`;
+    const textInner =
+      subtitlePosition === "below"
+        ? `${titleMarkup}${subtitleMarkup}`
+        : `${subtitleMarkup}${titleMarkup}`;
 
     return `
       <div class="sc-add-inner"${styleAttr}>
         <button type="button" class="sc-add-button sc-add-front" aria-label="${title}">
           ${emojiMarkup}
-          <span class="sc-add-text">
-            ${subtitleMarkup}
-            <span class="sc-add-title">${title}</span>
+          <span class="sc-add-text" data-subtitle-position="${subtitlePosition}">
+            ${textInner}
           </span>
         </button>
         <div class="sc-add-back">
