@@ -46,6 +46,12 @@
       padding-bottom: 80px;
     }
 
+    @media (max-width: 690px), (max-device-width: 690px) {
+      &.sc-card-has-add {
+        padding-bottom: 65px;
+      }
+    }
+
     .sc-cards-quantity {
       display: flex;
       flex-direction: row;
@@ -304,6 +310,63 @@
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 100%;
+          }
+        }
+      }
+
+      @media (max-width: 690px), (max-device-width: 690px) {
+        --sc-add-height: 46px;
+        --sc-add-radius: 8px;
+        --sc-add-title-size: 13px;
+        --sc-add-emoji-size: 24px;
+        bottom: 10px;
+        left: 4%;
+        right: 4%;
+        width: 92%;
+
+        .sc-add-button {
+          padding: 0 10px;
+          gap: 8px;
+          border-width: 1px;
+        }
+
+        .sc-add-subtitle {
+          display: none;
+        }
+
+        .sc-add-title {
+          white-space: normal;
+          line-height: 1.1;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          word-break: break-word;
+        }
+
+        .sc-add-back {
+          padding: 0 6px;
+          border-width: 1px;
+
+          .decrease,
+          .increase {
+            width: 24px;
+            height: 24px;
+            background-size: 24px 24px !important;
+          }
+
+          .sc-add-quantity-label {
+            padding: 0 4px;
+
+            .quantity {
+              font-size: 18px;
+            }
+
+            .sc-add-quantity-label-text {
+              font-size: 9px;
+              letter-spacing: 0.3px;
+              margin-top: 2px;
+            }
           }
         }
       }
