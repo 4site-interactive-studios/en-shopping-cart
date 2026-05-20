@@ -185,6 +185,10 @@
         flex-shrink: 0;
         width: var(--sc-add-emoji-size);
         height: var(--sc-add-emoji-size);
+        align-self: center;
+        line-height: 0;
+        font-size: 0;
+        display: block;
 
         img {
           position: absolute;
@@ -195,6 +199,7 @@
           margin: 0;
           padding: 0;
           object-fit: contain;
+          object-position: center;
           transition: opacity 0.2s ease;
           pointer-events: none;
         }
@@ -249,9 +254,10 @@
 
       .sc-add-back {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 14px;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        padding: 4px 10px 5px;
         background-color: var(--sc-add-back-bg);
         color: var(--sc-add-back-text) !important;
         border: 2px solid var(--sc-add-back-border);
@@ -261,14 +267,25 @@
           color: var(--sc-add-back-text) !important;
         }
 
+        .sc-add-back-controls {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          flex-grow: 1;
+          min-height: 0;
+          line-height: 1;
+        }
+
         .decrease,
         .increase {
-          width: 30px;
-          height: 30px;
+          width: 28px;
+          height: 28px;
           flex-shrink: 0;
           background-color: transparent !important;
           background-repeat: no-repeat !important;
           background-position: center !important;
+          background-size: contain !important;
         }
 
         .decrease {
@@ -279,38 +296,26 @@
           background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='1' fill='%23606062'/><rect x='15.5' y='11.5' width='8' height='1' transform='rotate(90 15.5 11.5)' fill='%23606062'/></svg>") !important;
         }
 
-        .sc-add-quantity-label {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          flex-grow: 1;
-          line-height: 1;
+        .quantity {
+          font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
+          font-size: 22px;
+          font-weight: 800;
+          margin: 0;
           padding: 0 8px;
-          min-width: 0;
+          line-height: 1;
+        }
 
-          .quantity {
-            font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial,
-              sans-serif;
-            font-size: 22px;
-            font-weight: 800;
-            margin: 0;
-            width: auto;
-          }
-
-          .sc-add-quantity-label-text {
-            font-size: 11px;
-            font-family: "proxima-nova", sans-serif;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0.7;
-            margin-top: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
-          }
+        .sc-add-quantity-label-text {
+          width: 100%;
+          text-align: center;
+          font-size: 10px;
+          font-family: "proxima-nova", sans-serif;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.4px;
+          line-height: 1.1;
+          margin-top: 2px;
+          word-break: break-word;
         }
       }
 
@@ -345,28 +350,24 @@
         }
 
         .sc-add-back {
-          padding: 0 6px;
+          padding: 3px 6px 4px;
           border-width: 1px;
 
           .decrease,
           .increase {
-            width: 24px;
-            height: 24px;
-            background-size: 24px 24px !important;
+            width: 22px;
+            height: 22px;
           }
 
-          .sc-add-quantity-label {
+          .quantity {
+            font-size: 17px;
             padding: 0 4px;
+          }
 
-            .quantity {
-              font-size: 18px;
-            }
-
-            .sc-add-quantity-label-text {
-              font-size: 9px;
-              letter-spacing: 0.3px;
-              margin-top: 2px;
-            }
+          .sc-add-quantity-label-text {
+            font-size: 9px;
+            letter-spacing: 0.3px;
+            margin-top: 1px;
           }
         }
       }
