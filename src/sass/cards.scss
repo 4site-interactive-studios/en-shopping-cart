@@ -159,17 +159,13 @@
         }
 
         &:hover {
-          background-color: var(--sc-add-border);
-          color: #ffffff !important;
-          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
-
-          * {
-            color: #ffffff !important;
-          }
+          box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+          transform: translateY(-1px);
         }
 
         &:active {
-          transform: scale(0.985);
+          transform: translateY(0) scale(0.985);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
         }
 
         &:focus-visible {
