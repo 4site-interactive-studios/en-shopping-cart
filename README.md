@@ -111,7 +111,7 @@ Override these on `.sc-cards-quantity.sc-cards-with-add` (per card or globally) 
   --sc-add-height: 55px;          /* button + back-side height */
   --sc-add-radius: 10px;
   --sc-add-title-size: 18px;
-  --sc-add-subtitle-size: 12px;
+  --sc-add-subtitle-size: 11px;
   --sc-add-emoji-size: 32px;
   /* Theme-driven defaults below — change per theme via the theme mixin: */
   --sc-add-bg: #ffffff;

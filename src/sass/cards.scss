@@ -108,7 +108,7 @@
       --sc-add-height: 55px;
       --sc-add-radius: 10px;
       --sc-add-title-size: 18px;
-      --sc-add-subtitle-size: 12px;
+      --sc-add-subtitle-size: 11px;
       --sc-add-emoji-size: 32px;
       --sc-add-bg: #ffffff;
       --sc-add-text: #3678ba;
@@ -251,7 +251,6 @@
       .sc-add-subtitle {
         font-size: var(--sc-add-subtitle-size);
         font-weight: 400;
-        opacity: 0.85;
         margin-bottom: 3px;
         text-align: left;
       }
