@@ -308,10 +308,9 @@
           padding: 0 8px;
           text-align: center;
           // top: 50% puts block's TOP at parent center. translateX centers
-          // horizontally; translateY shifts up by half the quantity's
-          // line-box height (22 / 2 = 11) so the digit (not the block) lines
-          // up with the +/- centers. Label naturally hangs below.
-          transform: translate(-50%, -11px);
+          // horizontally; translateY shifts up so the whole quantity+label
+          // group reads as vertically centered in the back area.
+          transform: translate(-50%, -18px);
         }
 
         .quantity {
@@ -384,7 +383,7 @@
           }
 
           .sc-add-quantity-block {
-            transform: translate(-50%, -8.5px);
+            transform: translate(-50%, -14px);
           }
 
           .quantity {
