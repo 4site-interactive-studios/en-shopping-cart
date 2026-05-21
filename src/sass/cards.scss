@@ -49,11 +49,11 @@
         }
 
         .sc-add-front {
-          pointer-events: none;
+          pointer-events: none !important;
         }
 
         .sc-add-back {
-          pointer-events: auto;
+          pointer-events: auto !important;
         }
       }
     }
@@ -142,6 +142,9 @@
         height: 100%;
         transform-style: preserve-3d;
         transition: transform 0.6s ease;
+        // 3D-rotated container otherwise becomes a transparent hit target
+        // covering both faces. Let clicks fall through to the visible face.
+        pointer-events: none;
       }
 
       .sc-add-front,
@@ -157,8 +160,14 @@
         box-sizing: border-box;
       }
 
-      // The face that's facing away from the user must not capture clicks.
-      // backface-visibility hides it visually but browsers still hit-test it.
+      // The inner container is pointer-events: none (see above), so re-enable
+      // pointer events on the faces. The back face stays disabled by default
+      // because backface-visibility hides it visually but browsers still
+      // hit-test it. We flip these in the &[data-selected="true"] block.
+      .sc-add-front {
+        pointer-events: auto;
+      }
+
       .sc-add-back {
         pointer-events: none;
       }
