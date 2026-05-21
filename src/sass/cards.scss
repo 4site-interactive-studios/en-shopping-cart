@@ -303,11 +303,10 @@
           font-weight: 800;
           margin: 0;
           padding: 0 8px;
-          line-height: 1;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
+          display: inline-block;
+          line-height: 28px;
           height: 28px;
+          transform: translateY(2px);
         }
 
         .sc-add-quantity-label-text {
