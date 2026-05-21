@@ -254,7 +254,7 @@
 
       .sc-add-back {
         position: relative;
-        padding: 0 10px;
+        padding: 0 14px;
         background-color: var(--sc-add-back-bg);
         color: var(--sc-add-back-text) !important;
         border: 2px solid var(--sc-add-back-border);
@@ -264,25 +264,13 @@
           color: var(--sc-add-back-text) !important;
         }
 
-        .sc-add-back-controls {
-          position: absolute;
-          top: 50%;
-          left: 0;
-          right: 0;
-          transform: translateY(-50%);
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 14px;
-          line-height: 1;
-        }
-
         .decrease,
         .increase {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
           width: 28px;
           height: 28px;
-          flex-shrink: 0;
           background-color: transparent !important;
           background-repeat: no-repeat !important;
           background-position: center !important;
@@ -290,11 +278,31 @@
         }
 
         .decrease {
+          left: 14px;
           background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='2' fill='%23606062'/></svg>") !important;
         }
 
         .increase {
+          right: 14px;
           background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='1' fill='%23606062'/><rect x='15.5' y='11.5' width='8' height='1' transform='rotate(90 15.5 11.5)' fill='%23606062'/></svg>") !important;
+        }
+
+        .sc-add-quantity-block {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          line-height: 1;
+          min-width: 0;
+          padding: 0 8px;
+          text-align: center;
+          // top: 50% puts block's TOP at parent center. translateX centers
+          // horizontally; translateY shifts up by half the quantity's
+          // line-box height (22 / 2 = 11) so the digit (not the block) lines
+          // up with the +/- centers. Label naturally hangs below.
+          transform: translate(-50%, -11px);
         }
 
         .quantity {
@@ -302,26 +310,21 @@
           font-size: 22px;
           font-weight: 800;
           margin: 0;
-          padding: 0 8px;
-          display: inline-block;
-          line-height: 28px;
-          height: 28px;
-          transform: translateY(2px);
+          line-height: 1;
         }
 
         .sc-add-quantity-label-text {
-          position: absolute;
-          bottom: 4px;
-          left: 0;
-          right: 0;
-          text-align: center;
           font-size: 10px;
           font-family: "proxima-nova", sans-serif;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.4px;
           line-height: 1.1;
-          word-break: break-word;
+          margin-top: 4px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
         }
       }
 
@@ -356,28 +359,33 @@
         }
 
         .sc-add-back {
-          padding: 0 6px;
+          padding: 0 8px;
           border-width: 1px;
-
-          .sc-add-back-controls {
-            padding: 0 8px;
-          }
 
           .decrease,
           .increase {
             width: 22px;
             height: 22px;
+            left: 8px;
+          }
+
+          .increase {
+            left: auto;
+            right: 8px;
+          }
+
+          .sc-add-quantity-block {
+            transform: translate(-50%, -8.5px);
           }
 
           .quantity {
             font-size: 17px;
-            padding: 0 4px;
           }
 
           .sc-add-quantity-label-text {
             font-size: 9px;
             letter-spacing: 0.3px;
-            margin-top: 1px;
+            margin-top: 2px;
           }
         }
       }

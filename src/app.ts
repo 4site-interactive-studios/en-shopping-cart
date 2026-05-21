@@ -327,16 +327,16 @@ export class App {
           </span>
         </button>
         <div class="sc-add-back">
-          <div class="sc-add-back-controls">
-            <div class="decrease" role="button" tabindex="0" aria-label="Decrease quantity"></div>
+          <div class="decrease" role="button" tabindex="0" aria-label="Decrease quantity"></div>
+          <div class="sc-add-quantity-block">
             <span class="quantity">${quantity}</span>
-            <div class="increase" role="button" tabindex="0" aria-label="Increase quantity"></div>
+            ${
+              quantityLabel
+                ? `<span class="sc-add-quantity-label-text">${quantityLabel}</span>`
+                : ""
+            }
           </div>
-          ${
-            quantityLabel
-              ? `<div class="sc-add-quantity-label-text">${quantityLabel}</div>`
-              : ""
-          }
+          <div class="increase" role="button" tabindex="0" aria-label="Increase quantity"></div>
         </div>
       </div>
     `;
