@@ -40,6 +40,11 @@
       .sc-cards-with-add .sc-add-inner {
         transform: rotateY(180deg);
       }
+
+      .sc-cards-with-add .sc-add-emoji {
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
     }
 
     &.sc-card-has-add {
@@ -189,6 +194,8 @@
         line-height: 0;
         font-size: 0;
         display: block;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
 
         img {
           position: absolute;
@@ -202,6 +209,8 @@
           object-position: center;
           transition: opacity 0.2s ease;
           pointer-events: none;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
 
         .sc-add-emoji-animated {
