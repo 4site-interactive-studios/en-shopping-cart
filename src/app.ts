@@ -278,8 +278,9 @@ export class App {
     const iconName = addEl.getAttribute("data-icon") || "";
     const subtitle = addEl.getAttribute("data-subtitle") || "";
     const subtitlePosition =
-      (addEl.getAttribute("data-subtitle-position") || "above").toLowerCase() ===
-      "below"
+      (
+        addEl.getAttribute("data-subtitle-position") || "above"
+      ).toLowerCase() === "below"
         ? "below"
         : "above";
     const quantityLabel = addEl.getAttribute("data-quantity-label") || "";
