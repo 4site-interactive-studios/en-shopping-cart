@@ -41,9 +41,12 @@
         transform: rotateY(180deg);
       }
 
-      .sc-cards-with-add .sc-add-emoji {
-        opacity: 0;
-        transition: opacity 0.2s ease;
+      .sc-cards-with-add {
+        .sc-add-emoji,
+        .sc-add-text {
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
       }
     }
 
@@ -236,6 +239,13 @@
         flex-grow: 1;
         min-width: 0;
         line-height: 1.1;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+
+        > * {
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
       }
 
       .sc-add-subtitle {
