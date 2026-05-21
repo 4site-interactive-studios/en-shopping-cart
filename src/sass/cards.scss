@@ -215,8 +215,11 @@
         position: relative;
         flex-shrink: 0;
         width: var(--sc-add-emoji-size);
-        height: var(--sc-add-emoji-size);
-        align-self: center;
+        min-height: var(--sc-add-emoji-size);
+        // Stretch to the full button height so the wrapper takes the same
+        // vertical space as the (possibly wrapped) text container. The img
+        // inside is centered within the stretched wrapper via object-fit.
+        align-self: stretch;
         line-height: 0;
         font-size: 0;
         display: block;
@@ -231,6 +234,8 @@
           height: 100%;
           margin: 0;
           padding: 0;
+          // contain + center keeps the icon at its natural aspect ratio,
+          // sitting in the middle of the stretched wrapper.
           object-fit: contain;
           object-position: center;
           transition: opacity 0.2s ease;
