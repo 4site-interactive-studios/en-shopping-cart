@@ -47,6 +47,14 @@
           opacity: 0;
           transition: opacity 0.2s ease;
         }
+
+        .sc-add-front {
+          pointer-events: none;
+        }
+
+        .sc-add-back {
+          pointer-events: auto;
+        }
       }
     }
 
@@ -147,6 +155,12 @@
         -webkit-backface-visibility: hidden;
         border-radius: var(--sc-add-radius);
         box-sizing: border-box;
+      }
+
+      // The face that's facing away from the user must not capture clicks.
+      // backface-visibility hides it visually but browsers still hit-test it.
+      .sc-add-back {
+        pointer-events: none;
       }
 
       .sc-add-button {
@@ -316,6 +330,7 @@
           min-width: 0;
           padding: 0 8px;
           text-align: center;
+          pointer-events: none;
           // top: 50% puts block's TOP at parent center. translateX centers
           // horizontally; translateY shifts up so the whole quantity+label
           // group reads as vertically centered in the back area.
