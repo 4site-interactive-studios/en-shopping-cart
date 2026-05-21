@@ -228,14 +228,16 @@
 
         img {
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+          top: 50%;
+          left: 50%;
+          width: var(--sc-add-emoji-size);
+          height: var(--sc-add-emoji-size);
+          // Explicit center via translate — percentage height does not
+          // resolve against the parent's stretched min-height, so we anchor
+          // at the middle and pull back by half the image size.
+          transform: translate(-50%, -50%);
           margin: 0;
           padding: 0;
-          // contain + center keeps the icon at its natural aspect ratio,
-          // sitting in the middle of the stretched wrapper.
           object-fit: contain;
           object-position: center;
           transition: opacity 0.2s ease;
