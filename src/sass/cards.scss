@@ -36,6 +36,36 @@
       .sc-card-image-flip .sc-card-image-inner {
         transform: rotateY(180deg);
       }
+
+      .sc-cards-with-add .sc-add-inner {
+        transform: rotateY(180deg);
+      }
+
+      .sc-cards-with-add {
+        .sc-add-emoji,
+        .sc-add-text {
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+
+        .sc-add-front {
+          pointer-events: none !important;
+        }
+
+        .sc-add-back {
+          pointer-events: auto !important;
+        }
+      }
+    }
+
+    &.sc-card-has-add {
+      padding-bottom: 80px;
+    }
+
+    @media (max-width: 690px), (max-device-width: 690px) {
+      &.sc-card-has-add {
+        padding-bottom: 65px;
+      }
     }
 
     .sc-cards-quantity {
@@ -79,6 +109,338 @@
       & + p {
         position: absolute;
         bottom: 10px;
+      }
+    }
+
+    .sc-cards-quantity.sc-cards-with-add {
+      --sc-add-height: 55px;
+      --sc-add-radius: 10px;
+      --sc-add-title-size: 18px;
+      --sc-add-subtitle-size: 11px;
+      --sc-add-emoji-size: 32px;
+      --sc-add-bg: #ffffff;
+      --sc-add-text: #3678ba;
+      --sc-add-border: #3678ba;
+      --sc-add-back-bg: #ffffff;
+      --sc-add-back-border: #3678ba;
+      --sc-add-back-text: #3678ba;
+      --sc-add-icon-stroke: "%23606062";
+
+      position: absolute;
+      bottom: 12px;
+      left: 5%;
+      right: 5%;
+      width: 90%;
+      height: var(--sc-add-height);
+      margin: 0;
+      perspective: 1200px;
+      display: block;
+
+      .sc-add-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.6s ease;
+        // 3D-rotated container otherwise becomes a transparent hit target
+        // covering both faces. Let clicks fall through to the visible face.
+        pointer-events: none;
+      }
+
+      .sc-add-front,
+      .sc-add-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        border-radius: var(--sc-add-radius);
+        box-sizing: border-box;
+      }
+
+      // The inner container is pointer-events: none (see above), so re-enable
+      // pointer events on the faces. The back face stays disabled by default
+      // because backface-visibility hides it visually but browsers still
+      // hit-test it. We flip these in the &[data-selected="true"] block.
+      .sc-add-front {
+        pointer-events: auto;
+      }
+
+      .sc-add-back {
+        pointer-events: none;
+      }
+
+      .sc-add-button {
+        appearance: none;
+        -webkit-appearance: none;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        padding: 0 16px;
+        background-color: var(--sc-add-bg);
+        color: var(--sc-add-text) !important;
+        border: 2px solid var(--sc-add-border);
+        cursor: pointer;
+        font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
+        transition: background-color 0.2s ease, color 0.2s ease,
+          transform 0.1s ease, box-shadow 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        text-align: left;
+
+        * {
+          color: var(--sc-add-text) !important;
+        }
+
+        &:hover {
+          box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(0) scale(0.985);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--sc-add-border);
+          outline-offset: 2px;
+        }
+      }
+
+      .sc-add-emoji {
+        position: relative;
+        flex-shrink: 0;
+        width: var(--sc-add-emoji-size);
+        min-height: var(--sc-add-emoji-size);
+        // Stretch to the full button height so the wrapper takes the same
+        // vertical space as the (possibly wrapped) text container. The img
+        // inside is centered within the stretched wrapper via object-fit.
+        align-self: stretch;
+        line-height: 0;
+        font-size: 0;
+        display: block;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+
+        img {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: var(--sc-add-emoji-size);
+          height: var(--sc-add-emoji-size);
+          // Explicit center via translate — percentage height does not
+          // resolve against the parent's stretched min-height, so we anchor
+          // at the middle and pull back by half the image size.
+          transform: translate(-50%, -50%);
+          margin: 0;
+          padding: 0;
+          object-fit: contain;
+          object-position: center;
+          transition: opacity 0.2s ease;
+          pointer-events: none;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+
+        .sc-add-emoji-animated {
+          opacity: 0;
+        }
+      }
+
+      .sc-add-button:hover,
+      .sc-add-button:focus-visible {
+        .sc-add-emoji-static {
+          opacity: 0;
+        }
+        .sc-add-emoji-animated {
+          opacity: 1;
+        }
+      }
+
+      .sc-add-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        flex-grow: 1;
+        min-width: 0;
+        line-height: 1.1;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+
+        > * {
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+      }
+
+      .sc-add-subtitle {
+        font-size: var(--sc-add-subtitle-size);
+        font-weight: 400;
+        margin-bottom: 3px;
+        text-align: left;
+      }
+
+      .sc-add-text[data-subtitle-position="below"] .sc-add-subtitle {
+        margin-bottom: 0;
+        margin-top: 3px;
+      }
+
+      .sc-add-title {
+        font-size: var(--sc-add-title-size);
+        font-weight: 800;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+      }
+
+      .sc-add-back {
+        position: relative;
+        padding: 0 14px;
+        background-color: var(--sc-add-back-bg);
+        color: var(--sc-add-back-text) !important;
+        border: 2px solid var(--sc-add-back-border);
+        transform: rotateY(180deg);
+
+        * {
+          color: var(--sc-add-back-text) !important;
+        }
+
+        .decrease,
+        .increase {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 28px;
+          height: 28px;
+          background-color: transparent !important;
+          background-repeat: no-repeat !important;
+          background-position: center !important;
+          background-size: contain !important;
+        }
+
+        .decrease {
+          left: 14px;
+          background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='2' fill='%23606062'/></svg>") !important;
+        }
+
+        .increase {
+          right: 14px;
+          background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='1' fill='%23606062'/><rect x='15.5' y='11.5' width='8' height='1' transform='rotate(90 15.5 11.5)' fill='%23606062'/></svg>") !important;
+        }
+
+        .sc-add-quantity-block {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          line-height: 1;
+          min-width: 0;
+          padding: 0 8px;
+          text-align: center;
+          pointer-events: none;
+          // top: 50% puts block's TOP at parent center. translateX centers
+          // horizontally; translateY shifts up so the whole quantity+label
+          // group reads as vertically centered in the back area.
+          transform: translate(-50%, -18px);
+        }
+
+        .quantity {
+          font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
+          font-size: 22px;
+          font-weight: 800;
+          margin: 0;
+          line-height: 1;
+        }
+
+        .sc-add-quantity-label-text {
+          font-size: 10px;
+          font-family: "proxima-nova", sans-serif;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.4px;
+          line-height: 1.1;
+          margin-top: 4px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 690px), (max-device-width: 690px) {
+        --sc-add-height: 46px;
+        --sc-add-radius: 8px;
+        --sc-add-emoji-size: 32px;
+        bottom: 10px;
+        left: 4%;
+        right: 4%;
+        width: 92%;
+
+        .sc-add-button {
+          padding: 0 10px;
+          gap: 8px;
+          border-width: 1px;
+        }
+
+        // On mobile, ignore any data-title-size / data-subtitle-size the
+        // client set — those can blow the button out at 2-up card widths.
+        // Pin the title to 13px directly (NOT via --sc-add-title-size) so
+        // the inline style on .sc-add-inner can't override it, and hide the
+        // subtitle entirely.
+        .sc-add-subtitle {
+          display: none !important;
+        }
+
+        .sc-add-title {
+          font-size: 13px !important;
+          white-space: normal;
+          line-height: 1.1;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          word-break: break-word;
+        }
+
+        .sc-add-back {
+          padding: 0 8px;
+          border-width: 1px;
+
+          .decrease,
+          .increase {
+            width: 22px;
+            height: 22px;
+            left: 8px;
+          }
+
+          .increase {
+            left: auto;
+            right: 8px;
+          }
+
+          .sc-add-quantity-block {
+            transform: translate(-50%, -14px);
+          }
+
+          .quantity {
+            font-size: 17px;
+          }
+
+          .sc-add-quantity-label-text {
+            font-size: 9px;
+            letter-spacing: 0.3px;
+            margin-top: 2px;
+          }
+        }
       }
     }
 
