@@ -391,9 +391,23 @@
           border-width: 1px;
         }
 
+        // On mobile, ignore any data-title-size / data-subtitle-size the
+        // client set — those can blow the button out at 2-up card widths.
+        // Pin the title to 13px directly (NOT via --sc-add-title-size) so
+        // the inline style on .sc-add-inner can't override it, and hide the
+        // subtitle entirely.
+        .sc-add-subtitle {
+          display: none !important;
+        }
+
         .sc-add-title {
+          font-size: 13px !important;
           white-space: normal;
           line-height: 1.1;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
           word-break: break-word;
         }
 
