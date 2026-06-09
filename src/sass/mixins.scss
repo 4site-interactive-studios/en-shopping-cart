@@ -102,6 +102,15 @@ $fs-escape-chars: (
           color: #ffffff;
         }
       }
+
+      .sc-cards-quantity.sc-cards-with-add {
+        --sc-add-bg: #ffffff;
+        --sc-add-text: #{$bg-amount-color};
+        --sc-add-border: #{$bg-amount-color};
+        --sc-add-back-bg: #ffffff;
+        --sc-add-back-border: #{$bg-amount-color};
+        --sc-add-back-text: #{$bg-amount-color};
+      }
     }
   }
   .sc-info {
