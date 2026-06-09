@@ -1,3 +1,5 @@
+import { getStaticEmojiUrl, getAnimatedEmojiUrl } from "./emoji-map";
+
 export class App {
   private cardsNode = document.querySelectorAll(
     ".sc-cards > div:not(.block-other)"
@@ -11,7 +13,7 @@ export class App {
     GBP: "£",
     CAD: "$",
     AUD: "$",
-    CHF: "₣"
+    CHF: "₣",
   };
 
   private additionalComments: HTMLTextAreaElement | null =
@@ -128,8 +130,8 @@ export class App {
           freq === "monthly" ? recurrpay === "Y" : recurrpay === "N";
         const freqMarkup = `
           <input id="frequency-${freq}" type="radio" name="sc-frequency" value="${freq}" ${
-          freqChecked ? "checked" : ""
-        } />
+            freqChecked ? "checked" : ""
+          } />
           <label for="frequency-${freq}">
             ${freq === "monthly" ? monthlyIcon : ""}
             <span>${freqText}</span>
@@ -250,15 +252,96 @@ export class App {
         "h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p"
       ) as HTMLParagraphElement;
       const quantity = this.getCardQuantity(card);
+
+      const addEl = card.querySelector(".sc-add") as HTMLElement | null;
       const div = document.createElement("div");
       div.classList.add("sc-cards-quantity");
-      div.innerHTML = `
-        <div class="decrease"></div>
-        <div class="quantity">${quantity}</div>
-        <div class="increase"></div>
-      `;
+
+      if (addEl) {
+        div.classList.add("sc-cards-with-add");
+        card.classList.add("sc-card-has-add");
+        div.innerHTML = this.buildAddButtonMarkup(addEl, quantity);
+        addEl.remove();
+      } else {
+        div.innerHTML = `
+          <div class="decrease"></div>
+          <div class="quantity">${quantity}</div>
+          <div class="increase"></div>
+        `;
+      }
+
       amountNode.parentNode.insertBefore(div, amountNode.nextSibling);
     });
+  }
+
+  private buildAddButtonMarkup(addEl: HTMLElement, quantity: number) {
+    const iconName = addEl.getAttribute("data-icon") || "";
+    const subtitle = addEl.getAttribute("data-subtitle") || "";
+    const subtitlePosition =
+      (
+        addEl.getAttribute("data-subtitle-position") || "above"
+      ).toLowerCase() === "below"
+        ? "below"
+        : "above";
+    const quantityLabel = addEl.getAttribute("data-quantity-label") || "";
+    const titleSize = addEl.getAttribute("data-title-size") || "";
+    const subtitleSize = addEl.getAttribute("data-subtitle-size") || "";
+    const title = (addEl.textContent || "").trim();
+
+    const staticUrl = getStaticEmojiUrl(iconName);
+    const animatedUrl = getAnimatedEmojiUrl(iconName);
+
+    const styleParts: string[] = [];
+    if (titleSize) styleParts.push(`--sc-add-title-size: ${titleSize}`);
+    if (subtitleSize)
+      styleParts.push(`--sc-add-subtitle-size: ${subtitleSize}`);
+    const styleAttr = styleParts.length
+      ? ` style="${styleParts.join("; ")}"`
+      : "";
+
+    const emojiMarkup = staticUrl
+      ? `
+        <span class="sc-add-emoji" aria-hidden="true">
+          <img class="sc-add-emoji-static" src="${staticUrl}" alt="" />
+          ${
+            animatedUrl
+              ? `<img class="sc-add-emoji-animated" src="${animatedUrl}" alt="" />`
+              : ""
+          }
+        </span>`
+      : "";
+
+    const subtitleMarkup = subtitle
+      ? `<span class="sc-add-subtitle">${subtitle}</span>`
+      : "";
+    const titleMarkup = `<span class="sc-add-title">${title}</span>`;
+    const textInner =
+      subtitlePosition === "below"
+        ? `${titleMarkup}${subtitleMarkup}`
+        : `${subtitleMarkup}${titleMarkup}`;
+
+    return `
+      <div class="sc-add-inner"${styleAttr}>
+        <button type="button" class="sc-add-button sc-add-front" aria-label="${title}">
+          ${emojiMarkup}
+          <span class="sc-add-text" data-subtitle-position="${subtitlePosition}">
+            ${textInner}
+          </span>
+        </button>
+        <div class="sc-add-back">
+          <div class="decrease" role="button" tabindex="0" aria-label="Decrease quantity"></div>
+          <div class="sc-add-quantity-block">
+            <span class="quantity">${quantity}</span>
+            ${
+              quantityLabel
+                ? `<span class="sc-add-quantity-label-text">${quantityLabel}</span>`
+                : ""
+            }
+          </div>
+          <div class="increase" role="button" tabindex="0" aria-label="Increase quantity"></div>
+        </div>
+      </div>
+    `;
   }
 
   private increaseQuantity(card: HTMLElement) {
@@ -320,9 +403,7 @@ export class App {
       ) {
         return this.currencies.AUD;
       }
-      if( 
-        card.classList.contains("chf")
-      ) {
+      if (card.classList.contains("chf")) {
         return this.currencies.CHF;
       }
     }
@@ -358,11 +439,9 @@ export class App {
     ) {
       return "AUD";
     }
-    if (
-      card.classList.contains("chf") 
-    ) {
+    if (card.classList.contains("chf")) {
       return "CHF";
-    }    
+    }
     const currencyCode = document.querySelector(
       '[name="transaction.paycurrency"]'
     ) as HTMLInputElement;
@@ -404,7 +483,7 @@ export class App {
         if (mutation.type === "attributes") {
           const card = mutation.target as HTMLElement;
           const quantityElement = card.querySelector(
-            ".sc-cards-quantity > .quantity"
+            ".sc-cards-quantity .quantity"
           ) as HTMLDivElement;
           if (quantityElement) {
             quantityElement.innerText = this.getCardQuantity(card).toString();
@@ -712,10 +791,10 @@ export class App {
   private setQuantityClickEvent() {
     this.cardsNode.forEach((card) => {
       const increase = card.querySelector(
-        ".sc-cards-quantity > .increase"
+        ".sc-cards-quantity .increase"
       ) as HTMLDivElement;
       const decrease = card.querySelector(
-        ".sc-cards-quantity > .decrease"
+        ".sc-cards-quantity .decrease"
       ) as HTMLDivElement;
       if (increase && decrease) {
         increase.addEventListener("click", () => {
@@ -723,6 +802,16 @@ export class App {
         });
         decrease.addEventListener("click", () => {
           this.decreaseQuantity(card);
+        });
+      }
+      const addButton = card.querySelector(
+        ".sc-add-button"
+      ) as HTMLButtonElement;
+      if (addButton) {
+        addButton.addEventListener("click", () => {
+          if (this.getCardQuantity(card) === 0) {
+            this.increaseQuantity(card);
+          }
         });
       }
     });
