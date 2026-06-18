@@ -56,6 +56,9 @@
         border: solid 1px #d2d2d2;
         background-color: #f7f7fa;
         color: #344857;
+        &::before {
+          display: none;
+        }
         .monthly-icon {
           width: 28px;
           height: 22px;

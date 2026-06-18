@@ -51,6 +51,7 @@ body[data-item-selected="true"] #en-shopping-cart {
 #en-shopping-cart {
   .en__component--advrow {
     max-width: 100%;
+    min-height: unset;
   }
   @import "./header.scss";
   @import "./frequency.scss";
@@ -67,4 +68,14 @@ body[data-item-selected="true"] #en-shopping-cart {
 // This is for PETA Germany only, break wording for the headings in the cards
 html[lang="de-DE"] {
   @import "./peta-germany.scss";
+}
+
+.flex {
+  display: flex !important;
+}
+
+.form-container {
+  max-width: 1040px !important;
+  margin: 0 auto !important;
+  column-gap: 40px;
 }
