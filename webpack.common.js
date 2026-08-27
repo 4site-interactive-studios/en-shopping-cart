@@ -1,8 +1,25 @@
 const path = require("path");
+const webpack = require("webpack");
+const { execSync } = require("child_process");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const pkg = require("./package.json");
+
+const getGitAuthor = () => {
+  try {
+    return execSync("git config user.name").toString().trim();
+  } catch {
+    return "unknown";
+  }
+};
+
+const buildBanner = `/*!
+ * ${pkg.name} v${pkg.version}
+ * Built: ${new Date().toISOString()}
+ * Author: ${getGitAuthor()}
+ */`;
 
 module.exports = {
   entry: "./src/index.ts",
@@ -48,6 +65,12 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   plugins: [
+    new webpack.BannerPlugin({
+      banner: buildBanner,
+      raw: true,
+      test: /\.(js|css)$/,
+      stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
+    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
