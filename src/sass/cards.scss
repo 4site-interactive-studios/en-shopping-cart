@@ -97,17 +97,32 @@
         background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='1' fill='%23606062'/><rect x='15.5' y='11.5' width='8' height='1' transform='rotate(90 15.5 11.5)' fill='%23606062'/></svg>");
       }
 
-      .quantity {
-        font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
-        font-weight: bold;
-        font-size: 32px;
-        margin: 0 6px;
+      &:not(.sc-cards-with-add) > input.quantity {
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+        appearance: none;
+        box-sizing: border-box;
         width: 60px;
-        text-align: center;
+        height: 30px;
+        margin: 0 6px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 32px;
+        font-weight: bold;
         line-height: 30px;
+        text-align: center;
       }
 
-      &:focus-visible {
+      &:not(.sc-cards-with-add) > input.quantity::-webkit-inner-spin-button,
+      &:not(.sc-cards-with-add) > input.quantity::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &:not(.sc-cards-with-add):focus-within {
         outline: 2px solid #3678ba;
         outline-offset: 2px;
         border-radius: 4px;

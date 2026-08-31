@@ -269,10 +269,9 @@ export class App {
         div.innerHTML = this.buildAddButtonMarkup(addEl, quantity);
         addEl.remove();
       } else {
-        div.setAttribute("tabindex", "0");
         div.innerHTML = `
           <div class="decrease" aria-hidden="true" tabindex="-1"></div>
-          <div class="quantity">${quantity}</div>
+          <input type="number" min="0" step="1" class="quantity" value="${quantity}" />
           <div class="increase" aria-hidden="true" tabindex="-1"></div>
         `;
       }
@@ -357,21 +356,11 @@ export class App {
   }
 
   private increaseQuantity(card: HTMLElement) {
-    const quantity = this.getCardQuantity(card);
-    const newQuantity = quantity + 1;
-    card.setAttribute("data-quantity", newQuantity.toString());
-    card.setAttribute("data-selected", "true");
+    this.setCardQuantity(card, this.getCardQuantity(card) + 1);
   }
 
   private decreaseQuantity(card: HTMLElement) {
-    const quantity = this.getCardQuantity(card);
-    if (quantity > 0) {
-      const newQuantity = quantity - 1;
-      card.setAttribute("data-quantity", newQuantity.toString());
-      if (newQuantity === 0) {
-        card.removeAttribute("data-selected");
-      }
-    }
+    this.setCardQuantity(card, this.getCardQuantity(card) - 1);
   }
 
   private getCardAmount(card: HTMLElement) {
@@ -482,11 +471,30 @@ export class App {
   }
 
   private getCardQuantity(card: HTMLElement) {
-    const quantity = card.getAttribute("data-quantity");
-    if (quantity) {
-      return parseInt(quantity, 10);
+    const quantity = Number(card.getAttribute("data-quantity"));
+    return isFinite(quantity) ? this.normalizeQuantity(quantity) : 0;
+  }
+
+  private normalizeQuantity(value: number) {
+    return Math.max(0, Math.round(value));
+  }
+
+  private setCardQuantity(card: HTMLElement, value: number) {
+    if (!isFinite(value)) {
+      return this.getCardQuantity(card);
     }
-    return 0;
+
+    const quantity = this.normalizeQuantity(value);
+    const quantityText = quantity.toString();
+    if (card.getAttribute("data-quantity") !== quantityText) {
+      card.setAttribute("data-quantity", quantityText);
+    }
+    if (quantity > 0) {
+      card.setAttribute("data-selected", "true");
+    } else {
+      card.removeAttribute("data-selected");
+    }
+    return quantity;
   }
 
   private normalizeTitle(title: string) {
@@ -508,11 +516,17 @@ export class App {
       : `${symbol}${amountText}`;
   }
 
-  private getSpinbutton(card: HTMLElement) {
-    if (card.classList.contains("sc-card-has-add")) {
-      return card.querySelector(".sc-add-back") as HTMLDivElement | null;
+  private getQuantityInput(card: HTMLElement) {
+    return card.querySelector(
+      ".sc-cards-quantity:not(.sc-cards-with-add) > input.quantity"
+    ) as HTMLInputElement | null;
+  }
+
+  private getAddSpinbutton(card: HTMLElement) {
+    if (!card.classList.contains("sc-card-has-add")) {
+      return null;
     }
-    return card.querySelector(".sc-cards-quantity") as HTMLDivElement | null;
+    return card.querySelector(".sc-add-back") as HTMLDivElement | null;
   }
 
   private updateCardA11y(card: HTMLElement, announce = false) {
@@ -520,16 +534,20 @@ export class App {
     const label = this.getCardQuantityLabel(card);
     const title = this.normalizeTitle(this.getCardTitle(card));
     const price = this.formatPrice(card);
-    const spinbutton = this.getSpinbutton(card);
-    if (spinbutton) {
-      spinbutton.setAttribute("role", "spinbutton");
-      spinbutton.setAttribute("aria-valuemin", "0");
-      spinbutton.setAttribute("aria-valuenow", quantity.toString());
-      spinbutton.setAttribute("aria-valuetext", `${quantity} ${label}`);
-      spinbutton.setAttribute(
-        "aria-label",
-        `${title}. Unit price ${price}.`
-      );
+    const quantityInput = this.getQuantityInput(card);
+    const addSpinbutton = this.getAddSpinbutton(card);
+
+    if (quantityInput) {
+      quantityInput.setAttribute("aria-valuetext", `${quantity} ${label}`);
+      quantityInput.setAttribute("aria-label", `${title}. Unit price ${price}.`);
+    }
+
+    if (addSpinbutton) {
+      addSpinbutton.setAttribute("role", "spinbutton");
+      addSpinbutton.setAttribute("aria-valuemin", "0");
+      addSpinbutton.setAttribute("aria-valuenow", quantity.toString());
+      addSpinbutton.setAttribute("aria-valuetext", `${quantity} ${label}`);
+      addSpinbutton.setAttribute("aria-label", `${title}. Unit price ${price}.`);
     }
     if (card.classList.contains("sc-card-has-add")) {
       const frontButton = card.querySelector(
@@ -544,15 +562,15 @@ export class App {
           `${title}. ${buttonTitle} for ${price}`
         );
       }
-      if (spinbutton && frontButton) {
+      if (addSpinbutton && frontButton) {
         if (quantity > 0) {
-          spinbutton.setAttribute("tabindex", "0");
-          spinbutton.removeAttribute("aria-hidden");
+          addSpinbutton.setAttribute("tabindex", "0");
+          addSpinbutton.removeAttribute("aria-hidden");
           frontButton.setAttribute("tabindex", "-1");
           frontButton.setAttribute("aria-hidden", "true");
         } else {
-          spinbutton.setAttribute("tabindex", "-1");
-          spinbutton.setAttribute("aria-hidden", "true");
+          addSpinbutton.setAttribute("tabindex", "-1");
+          addSpinbutton.setAttribute("aria-hidden", "true");
           frontButton.removeAttribute("tabindex");
           frontButton.removeAttribute("aria-hidden");
         }
@@ -561,7 +579,12 @@ export class App {
     const liveRegion = card.querySelector(
       ".sc-sr-only[aria-live]"
     ) as HTMLSpanElement | null;
-    if (announce && liveRegion && document.activeElement !== spinbutton) {
+    const activeQuantityControl = quantityInput || addSpinbutton;
+    if (
+      announce &&
+      liveRegion &&
+      document.activeElement !== activeQuantityControl
+    ) {
       liveRegion.textContent =
         quantity > 0
           ? `${quantity} ${label}, ${this.formatPrice(
@@ -579,9 +602,11 @@ export class App {
           const card = mutation.target as HTMLElement;
           const quantityElement = card.querySelector(
             ".sc-cards-quantity .quantity"
-          ) as HTMLDivElement;
-          if (quantityElement) {
-            quantityElement.innerText = this.getCardQuantity(card).toString();
+          ) as HTMLElement | null;
+          if (quantityElement instanceof HTMLInputElement) {
+            quantityElement.value = this.getCardQuantity(card).toString();
+          } else if (quantityElement) {
+            quantityElement.textContent = this.getCardQuantity(card).toString();
           }
           this.updateCardA11y(card, true);
           this.rememberQuantity();
@@ -912,7 +937,7 @@ export class App {
         addButton.addEventListener("click", () => {
           if (this.getCardQuantity(card) === 0) {
             this.increaseQuantity(card);
-            const spinbutton = this.getSpinbutton(card);
+            const spinbutton = this.getAddSpinbutton(card);
             if (spinbutton) {
               this.updateCardA11y(card);
               spinbutton.focus();
@@ -920,7 +945,58 @@ export class App {
           }
         });
       }
-      const spinbutton = this.getSpinbutton(card);
+      const quantityInput = this.getQuantityInput(card);
+      if (quantityInput) {
+        const syncQuantityInput = (settleEmpty: boolean) => {
+          if (quantityInput.value === "") {
+            if (settleEmpty) {
+              this.setCardQuantity(card, 0);
+            }
+            return;
+          }
+
+          const enteredQuantity = quantityInput.valueAsNumber;
+          if (!isFinite(enteredQuantity)) {
+            return;
+          }
+
+          const normalizedQuantity = this.setCardQuantity(
+            card,
+            enteredQuantity
+          );
+          // If the normalized value already matched data-quantity, no observer
+          // record is produced; canonicalize the typed display immediately.
+          if (quantityInput.value !== normalizedQuantity.toString()) {
+            quantityInput.value = normalizedQuantity.toString();
+          }
+        };
+
+        quantityInput.addEventListener("input", () => {
+          syncQuantityInput(false);
+        });
+        quantityInput.addEventListener("change", () => {
+          syncQuantityInput(true);
+        });
+        quantityInput.addEventListener("blur", () => {
+          syncQuantityInput(true);
+        });
+
+        quantityInput.addEventListener("keydown", (e) => {
+          const increaseKeys = ["ArrowUp", "ArrowRight", "+", "="];
+          const decreaseKeys = ["ArrowDown", "ArrowLeft", "-", "_"];
+
+          if (increaseKeys.indexOf(e.key) !== -1) {
+            e.preventDefault();
+            this.increaseQuantity(card);
+            return;
+          }
+          if (decreaseKeys.indexOf(e.key) !== -1) {
+            e.preventDefault();
+            this.decreaseQuantity(card);
+          }
+        });
+      }
+      const spinbutton = this.getAddSpinbutton(card);
       if (spinbutton) {
         spinbutton.addEventListener("keydown", (e) => {
           if (
