@@ -106,6 +106,12 @@
         text-align: center;
         line-height: 30px;
       }
+
+      &:focus-visible {
+        outline: 2px solid #3678ba;
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
       & + p {
         position: absolute;
         bottom: 10px;
@@ -307,6 +313,11 @@
         color: var(--sc-add-back-text) !important;
         border: 2px solid var(--sc-add-back-border);
         transform: rotateY(180deg);
+
+        &:focus-visible {
+          outline: 2px solid var(--sc-add-back-border);
+          outline-offset: 2px;
+        }
 
         * {
           color: var(--sc-add-back-text) !important;
@@ -677,6 +688,57 @@
           background-color: #fff;
         }
       }
+    }
+  }
+}
+
+.sc-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sc-keyboard-help {
+  max-width: 1040px;
+  margin: 16px auto 0;
+  padding: 10px 16px;
+  background: #3678ba;
+  color: #fff;
+  border-radius: 8px;
+  font-family: inherit, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-cards {
+    .en__component--copyblock,
+    .sc-card-image-inner,
+    .sc-add-inner,
+    .sc-add-button,
+    .sc-add-emoji,
+    .sc-add-text,
+    .sc-add-emoji img,
+    .decrease,
+    .increase {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .sc-add-emoji-animated {
+      display: none !important;
+    }
+
+    .sc-add-emoji-static {
+      display: inline !important;
+      opacity: 1 !important;
     }
   }
 }
