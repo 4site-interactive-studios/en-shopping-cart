@@ -950,7 +950,8 @@ export class App {
         const syncQuantityInput = (settleEmpty: boolean) => {
           if (quantityInput.value === "") {
             if (settleEmpty) {
-              this.setCardQuantity(card, 0);
+              const normalizedQuantity = this.setCardQuantity(card, 0);
+              quantityInput.value = normalizedQuantity.toString();
             }
             return;
           }
