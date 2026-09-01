@@ -100,7 +100,7 @@
       &:not(.sc-cards-with-add) > input.quantity {
         -webkit-appearance: none;
         -moz-appearance: textfield;
-        appearance: none;
+        appearance: textfield;
         box-sizing: border-box;
         width: 60px;
         height: 30px;
@@ -387,7 +387,7 @@
         .quantity {
           -webkit-appearance: none;
           -moz-appearance: textfield;
-          appearance: none;
+          appearance: textfield;
           box-sizing: border-box;
           width: 2.4ch;
           min-width: 30px;
