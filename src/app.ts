@@ -211,12 +211,43 @@ export class App {
           cardImage[1].classList.add("sc-card-image-back");
           cardImageInner.appendChild(cardImage[0]);
           cardImageInner.appendChild(cardImage[1]);
+          this.freezeGifFrame(cardImage[0]);
+          this.freezeGifFrame(cardImage[1]);
           cardImageContainer.innerHTML = "";
           cardImageContainer.appendChild(cardImageInner);
           card.setAttribute("data-flip", "true");
         }
       }
     });
+  }
+
+  private freezeGifFrame(img: HTMLImageElement) {
+    if (!/\.gif(\?|#|$)/i.test(img.src)) {
+      return;
+    }
+    const draw = () => {
+      if (!img.naturalWidth || !img.naturalHeight) {
+        return;
+      }
+      const canvas = document.createElement("canvas");
+      canvas.className = img.className;
+      canvas.classList.add("sc-frozen-frame");
+      canvas.setAttribute("aria-hidden", "true");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        return;
+      }
+      ctx.drawImage(img, 0, 0);
+      img.classList.add("sc-has-frozen-frame");
+      img.parentNode?.insertBefore(canvas, img.nextSibling);
+    };
+    if (img.complete && img.naturalWidth > 0) {
+      draw();
+    } else {
+      img.addEventListener("load", draw, { once: true });
+    }
   }
 
   private createCardsAmounts() {

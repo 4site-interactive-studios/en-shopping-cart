@@ -583,7 +583,8 @@
           transition: transform 0.6s;
           transform-style: preserve-3d;
 
-          img {
+          img,
+          canvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -598,6 +599,10 @@
             &.sc-card-image-back {
               transform: rotateY(180deg);
             }
+          }
+
+          canvas.sc-frozen-frame {
+            display: none;
           }
         }
       }
@@ -777,6 +782,16 @@
     .sc-add-emoji-static {
       display: inline !important;
       opacity: 1 !important;
+    }
+
+    .sc-card-image-flip {
+      img.sc-has-frozen-frame {
+        display: none !important;
+      }
+
+      canvas.sc-frozen-frame {
+        display: block !important;
+      }
     }
   }
 }
