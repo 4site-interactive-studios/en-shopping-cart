@@ -329,7 +329,7 @@
         border: 2px solid var(--sc-add-back-border);
         transform: rotateY(180deg);
 
-        &:focus-visible {
+        &:focus-within {
           outline: 2px solid var(--sc-add-back-border);
           outline-offset: 2px;
         }
@@ -380,11 +380,29 @@
         }
 
         .quantity {
+          -webkit-appearance: none;
+          -moz-appearance: textfield;
+          appearance: none;
+          box-sizing: border-box;
+          width: 2.4ch;
+          min-width: 30px;
+          padding: 0;
+          border: 0;
+          background: transparent;
+          color: inherit;
           font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
           font-size: 22px;
           font-weight: 800;
           margin: 0;
           line-height: 1;
+          text-align: center;
+          pointer-events: auto;
+
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
         }
 
         .sc-add-quantity-label-text {

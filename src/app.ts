@@ -339,10 +339,10 @@ export class App {
             ${textInner}
           </span>
         </button>
-        <div class="sc-add-back" tabindex="-1" aria-hidden="true">
+        <div class="sc-add-back" aria-hidden="true">
           <div class="decrease" aria-hidden="true"></div>
           <div class="sc-add-quantity-block">
-            <span class="quantity">${quantity}</span>
+            <input type="number" min="0" step="1" class="quantity" value="${quantity}" tabindex="-1" aria-label="Quantity" />
             ${
               quantityLabel
                 ? `<span class="sc-add-quantity-label-text">${quantityLabel}</span>`
@@ -518,15 +518,8 @@ export class App {
 
   private getQuantityInput(card: HTMLElement) {
     return card.querySelector(
-      ".sc-cards-quantity:not(.sc-cards-with-add) > input.quantity"
+      ".sc-cards-quantity input.quantity"
     ) as HTMLInputElement | null;
-  }
-
-  private getAddSpinbutton(card: HTMLElement) {
-    if (!card.classList.contains("sc-card-has-add")) {
-      return null;
-    }
-    return card.querySelector(".sc-add-back") as HTMLDivElement | null;
   }
 
   private updateCardA11y(card: HTMLElement, announce = false) {
@@ -535,21 +528,14 @@ export class App {
     const title = this.normalizeTitle(this.getCardTitle(card));
     const price = this.formatPrice(card);
     const quantityInput = this.getQuantityInput(card);
-    const addSpinbutton = this.getAddSpinbutton(card);
 
     if (quantityInput) {
       quantityInput.setAttribute("aria-valuetext", `${quantity} ${label}`);
       quantityInput.setAttribute("aria-label", `${title}. Unit price ${price}.`);
     }
 
-    if (addSpinbutton) {
-      addSpinbutton.setAttribute("role", "spinbutton");
-      addSpinbutton.setAttribute("aria-valuemin", "0");
-      addSpinbutton.setAttribute("aria-valuenow", quantity.toString());
-      addSpinbutton.setAttribute("aria-valuetext", `${quantity} ${label}`);
-      addSpinbutton.setAttribute("aria-label", `${title}. Unit price ${price}.`);
-    }
     if (card.classList.contains("sc-card-has-add")) {
+      const back = card.querySelector(".sc-add-back") as HTMLDivElement | null;
       const frontButton = card.querySelector(
         ".sc-add-button"
       ) as HTMLButtonElement | null;
@@ -562,15 +548,15 @@ export class App {
           `${title}. ${buttonTitle} for ${price}`
         );
       }
-      if (addSpinbutton && frontButton) {
+      if (back && frontButton && quantityInput) {
         if (quantity > 0) {
-          addSpinbutton.setAttribute("tabindex", "0");
-          addSpinbutton.removeAttribute("aria-hidden");
+          back.removeAttribute("aria-hidden");
+          quantityInput.removeAttribute("tabindex");
           frontButton.setAttribute("tabindex", "-1");
           frontButton.setAttribute("aria-hidden", "true");
         } else {
-          addSpinbutton.setAttribute("tabindex", "-1");
-          addSpinbutton.setAttribute("aria-hidden", "true");
+          back.setAttribute("aria-hidden", "true");
+          quantityInput.setAttribute("tabindex", "-1");
           frontButton.removeAttribute("tabindex");
           frontButton.removeAttribute("aria-hidden");
         }
@@ -579,12 +565,7 @@ export class App {
     const liveRegion = card.querySelector(
       ".sc-sr-only[aria-live]"
     ) as HTMLSpanElement | null;
-    const activeQuantityControl = quantityInput || addSpinbutton;
-    if (
-      announce &&
-      liveRegion &&
-      document.activeElement !== activeQuantityControl
-    ) {
+    if (announce && liveRegion && document.activeElement !== quantityInput) {
       liveRegion.textContent =
         quantity > 0
           ? `${quantity} ${label}, ${this.formatPrice(
@@ -938,10 +919,10 @@ export class App {
         addButton.addEventListener("click", () => {
           if (this.getCardQuantity(card) === 0) {
             this.increaseQuantity(card);
-            const spinbutton = this.getAddSpinbutton(card);
-            if (spinbutton) {
+            const quantityInput = this.getQuantityInput(card);
+            if (quantityInput) {
               this.updateCardA11y(card);
-              spinbutton.focus();
+              quantityInput.focus();
             }
           }
         });
@@ -994,26 +975,6 @@ export class App {
           }
           if (decreaseKeys.indexOf(e.key) !== -1) {
             e.preventDefault();
-            this.decreaseQuantity(card);
-          }
-        });
-      }
-      const spinbutton = this.getAddSpinbutton(card);
-      if (spinbutton) {
-        spinbutton.addEventListener("keydown", (e) => {
-          if (
-            e.key === "ArrowRight" ||
-            e.key === "ArrowUp" ||
-            e.key === "+"
-          ) {
-            e.preventDefault();
-            this.increaseQuantity(card);
-          } else if (
-            e.key === "ArrowLeft" ||
-            e.key === "ArrowDown" ||
-            e.key === "-"
-          ) {
-            e.preventDefault();
             const willZero = this.getCardQuantity(card) === 1;
             this.decreaseQuantity(card);
             if (willZero) {
@@ -1050,7 +1011,9 @@ export class App {
         return;
       }
       const cards = document.querySelector(".sc-cards");
-      if (!cards) {
+      const cardsParent = cards?.parentNode as HTMLElement | null;
+      const grandparent = cardsParent?.parentNode;
+      if (!cards || !cardsParent || !grandparent) {
         return;
       }
       shown = true;
@@ -1058,7 +1021,7 @@ export class App {
       banner.className = "sc-keyboard-help";
       banner.setAttribute("role", "status");
       banner.setAttribute("aria-live", "polite");
-      cards.parentNode?.insertBefore(banner, cards);
+      grandparent.insertBefore(banner, cardsParent);
       window.setTimeout(() => {
         banner.textContent =
           "Keyboard navigation: Tab moves between items. Left/Right arrows or -/+ keys adjust quantity. Press H on any item to jump to the checkout form.";
