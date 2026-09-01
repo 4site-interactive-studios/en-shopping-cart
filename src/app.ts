@@ -70,6 +70,8 @@ export class App {
     this.createCardsImageFlip();
     this.watchForQuantityChanges();
     this.setQuantityClickEvent();
+    this.addKeyboardHelp();
+    this.addCheckoutHotkey();
     this.addLiveVariables();
     this.addOtherAmount();
     this.addMonthlyCheckbox();
@@ -209,12 +211,43 @@ export class App {
           cardImage[1].classList.add("sc-card-image-back");
           cardImageInner.appendChild(cardImage[0]);
           cardImageInner.appendChild(cardImage[1]);
+          this.freezeGifFrame(cardImage[0]);
+          this.freezeGifFrame(cardImage[1]);
           cardImageContainer.innerHTML = "";
           cardImageContainer.appendChild(cardImageInner);
           card.setAttribute("data-flip", "true");
         }
       }
     });
+  }
+
+  private freezeGifFrame(img: HTMLImageElement) {
+    if (!/\.gif(\?|#|$)/i.test(img.src)) {
+      return;
+    }
+    const draw = () => {
+      if (!img.naturalWidth || !img.naturalHeight) {
+        return;
+      }
+      const canvas = document.createElement("canvas");
+      canvas.className = img.className;
+      canvas.classList.add("sc-frozen-frame");
+      canvas.setAttribute("aria-hidden", "true");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        return;
+      }
+      ctx.drawImage(img, 0, 0);
+      img.classList.add("sc-has-frozen-frame");
+      img.parentNode?.insertBefore(canvas, img.nextSibling);
+    };
+    if (img.complete && img.naturalWidth > 0) {
+      draw();
+    } else {
+      img.addEventListener("load", draw, { once: true });
+    }
   }
 
   private createCardsAmounts() {
@@ -260,17 +293,26 @@ export class App {
       if (addEl) {
         div.classList.add("sc-cards-with-add");
         card.classList.add("sc-card-has-add");
+        const quantityLabel = addEl.getAttribute("data-quantity-label");
+        if (quantityLabel) {
+          div.setAttribute("data-quantity-label", quantityLabel);
+        }
         div.innerHTML = this.buildAddButtonMarkup(addEl, quantity);
         addEl.remove();
       } else {
         div.innerHTML = `
-          <div class="decrease"></div>
-          <div class="quantity">${quantity}</div>
-          <div class="increase"></div>
+          <div class="decrease" aria-hidden="true" tabindex="-1"></div>
+          <input type="number" min="0" step="1" class="quantity" value="${quantity}" />
+          <div class="increase" aria-hidden="true" tabindex="-1"></div>
         `;
       }
 
       amountNode.parentNode.insertBefore(div, amountNode.nextSibling);
+
+      const liveRegion = document.createElement("span");
+      liveRegion.classList.add("sc-sr-only");
+      liveRegion.setAttribute("aria-live", "polite");
+      card.appendChild(liveRegion);
     });
   }
 
@@ -328,38 +370,28 @@ export class App {
             ${textInner}
           </span>
         </button>
-        <div class="sc-add-back">
-          <div class="decrease" role="button" tabindex="0" aria-label="Decrease quantity"></div>
+        <div class="sc-add-back" aria-hidden="true">
+          <div class="decrease" aria-hidden="true"></div>
           <div class="sc-add-quantity-block">
-            <span class="quantity">${quantity}</span>
+            <input type="number" min="0" step="1" class="quantity" value="${quantity}" tabindex="-1" aria-label="Quantity" />
             ${
               quantityLabel
                 ? `<span class="sc-add-quantity-label-text">${quantityLabel}</span>`
                 : ""
             }
           </div>
-          <div class="increase" role="button" tabindex="0" aria-label="Increase quantity"></div>
+          <div class="increase" aria-hidden="true"></div>
         </div>
       </div>
     `;
   }
 
   private increaseQuantity(card: HTMLElement) {
-    const quantity = this.getCardQuantity(card);
-    const newQuantity = quantity + 1;
-    card.setAttribute("data-quantity", newQuantity.toString());
-    card.setAttribute("data-selected", "true");
+    this.setCardQuantity(card, this.getCardQuantity(card) + 1);
   }
 
   private decreaseQuantity(card: HTMLElement) {
-    const quantity = this.getCardQuantity(card);
-    if (quantity > 0) {
-      const newQuantity = quantity - 1;
-      card.setAttribute("data-quantity", newQuantity.toString());
-      if (newQuantity === 0) {
-        card.removeAttribute("data-selected");
-      }
-    }
+    this.setCardQuantity(card, this.getCardQuantity(card) - 1);
   }
 
   private getCardAmount(card: HTMLElement) {
@@ -470,11 +502,109 @@ export class App {
   }
 
   private getCardQuantity(card: HTMLElement) {
-    const quantity = card.getAttribute("data-quantity");
-    if (quantity) {
-      return parseInt(quantity, 10);
+    const quantity = Number(card.getAttribute("data-quantity"));
+    return isFinite(quantity) ? this.normalizeQuantity(quantity) : 0;
+  }
+
+  private normalizeQuantity(value: number) {
+    return Math.max(0, Math.round(value));
+  }
+
+  private setCardQuantity(card: HTMLElement, value: number) {
+    if (!isFinite(value)) {
+      return this.getCardQuantity(card);
     }
-    return 0;
+
+    const quantity = this.normalizeQuantity(value);
+    const quantityText = quantity.toString();
+    if (card.getAttribute("data-quantity") !== quantityText) {
+      card.setAttribute("data-quantity", quantityText);
+    }
+    if (quantity > 0) {
+      card.setAttribute("data-selected", "true");
+    } else {
+      card.removeAttribute("data-selected");
+    }
+    return quantity;
+  }
+
+  private normalizeTitle(title: string) {
+    return title.trim().replace(/[.,!?:;]+$/, "");
+  }
+
+  private getCardQuantityLabel(card: HTMLElement) {
+    const widget = card.querySelector(".sc-cards-quantity");
+    return (widget && widget.getAttribute("data-quantity-label")) || "added";
+  }
+
+  private formatPrice(card: HTMLElement, amount = this.getCardAmount(card)) {
+    const symbol = this.getCurrencySymbol(card);
+    const position = this.getCurrencyPosition(card);
+    const amountText =
+      amount % 1 === 0 ? amount.toString() : amount.toFixed(2);
+    return position === "right"
+      ? `${amountText}${symbol}`
+      : `${symbol}${amountText}`;
+  }
+
+  private getQuantityInput(card: HTMLElement) {
+    return card.querySelector(
+      ".sc-cards-quantity input.quantity"
+    ) as HTMLInputElement | null;
+  }
+
+  private updateCardA11y(card: HTMLElement, announce = false) {
+    const quantity = this.getCardQuantity(card);
+    const label = this.getCardQuantityLabel(card);
+    const title = this.normalizeTitle(this.getCardTitle(card));
+    const price = this.formatPrice(card);
+    const quantityInput = this.getQuantityInput(card);
+
+    if (quantityInput) {
+      quantityInput.setAttribute("aria-valuetext", `${quantity} ${label}`);
+      quantityInput.setAttribute("aria-label", `${title}. Unit price ${price}.`);
+    }
+
+    if (card.classList.contains("sc-card-has-add")) {
+      const back = card.querySelector(".sc-add-back") as HTMLDivElement | null;
+      const frontButton = card.querySelector(
+        ".sc-add-button"
+      ) as HTMLButtonElement | null;
+      const buttonTitle = (
+        card.querySelector(".sc-add-title")?.textContent || ""
+      ).trim();
+      if (frontButton) {
+        frontButton.setAttribute(
+          "aria-label",
+          `${title}. ${buttonTitle} for ${price}`
+        );
+      }
+      if (back && frontButton && quantityInput) {
+        if (quantity > 0) {
+          back.removeAttribute("aria-hidden");
+          quantityInput.removeAttribute("tabindex");
+          frontButton.setAttribute("tabindex", "-1");
+          frontButton.setAttribute("aria-hidden", "true");
+        } else {
+          back.setAttribute("aria-hidden", "true");
+          quantityInput.setAttribute("tabindex", "-1");
+          frontButton.removeAttribute("tabindex");
+          frontButton.removeAttribute("aria-hidden");
+        }
+      }
+    }
+    const liveRegion = card.querySelector(
+      ".sc-sr-only[aria-live]"
+    ) as HTMLSpanElement | null;
+    if (announce && liveRegion && document.activeElement !== quantityInput) {
+      liveRegion.textContent =
+        quantity > 0
+          ? `${quantity} ${label}, ${this.formatPrice(
+              card,
+              this.getCardAmount(card) * quantity
+            )}`
+          : `${quantity} ${label}`;
+    }
   }
 
   private watchForQuantityChanges() {
@@ -484,10 +614,13 @@ export class App {
           const card = mutation.target as HTMLElement;
           const quantityElement = card.querySelector(
             ".sc-cards-quantity .quantity"
-          ) as HTMLDivElement;
-          if (quantityElement) {
-            quantityElement.innerText = this.getCardQuantity(card).toString();
+          ) as HTMLElement | null;
+          if (quantityElement instanceof HTMLInputElement) {
+            quantityElement.value = this.getCardQuantity(card).toString();
+          } else if (quantityElement) {
+            quantityElement.textContent = this.getCardQuantity(card).toString();
           }
+          this.updateCardA11y(card, true);
           this.rememberQuantity();
           this.updateTotal();
         }
@@ -498,11 +631,13 @@ export class App {
         attributes: true,
         attributeFilter: ["data-quantity"],
       });
+      this.updateCardA11y(card);
     });
   }
   private addOtherAmount() {
     const blockOther = document.querySelector(".block-other") as HTMLDivElement;
     if (blockOther) {
+      blockOther.removeAttribute("tabindex");
       const otherStored =
         localStorage.getItem(`sc-cards-${this.getPageId()}-other`) || "0";
       if (otherStored !== "0") {
@@ -514,7 +649,7 @@ export class App {
       otherAmountWrapper.classList.add("block-other-amount");
       otherAmountWrapper.innerHTML = `
       <span class="currency-symbol">${currency}</span>
-      <input id="sc-other-amount" aria-label="Enter your custom donation amount" name="transaction.donationAmt.other-standin" type="text" inputmode="decimal" data-lpignore="true" autocomplete="off" value="${otherStored}" tabindex="1" placeholder="0" />
+      <input id="sc-other-amount" aria-label="Enter your custom donation amount" name="transaction.donationAmt.other-standin" type="text" inputmode="decimal" data-lpignore="true" autocomplete="off" value="${otherStored}" placeholder="0" />
       <span class="currency-code">${currencyCode}</span>
       `;
       blockOther.appendChild(otherAmountWrapper);
@@ -801,7 +936,11 @@ export class App {
           this.increaseQuantity(card);
         });
         decrease.addEventListener("click", () => {
+          const willZero = this.getCardQuantity(card) === 1;
           this.decreaseQuantity(card);
+          if (willZero) {
+            this.returnFocusToAddButton(card);
+          }
         });
       }
       const addButton = card.querySelector(
@@ -811,9 +950,137 @@ export class App {
         addButton.addEventListener("click", () => {
           if (this.getCardQuantity(card) === 0) {
             this.increaseQuantity(card);
+            const quantityInput = this.getQuantityInput(card);
+            if (quantityInput) {
+              this.updateCardA11y(card);
+              quantityInput.focus();
+            }
           }
         });
       }
+      const quantityInput = this.getQuantityInput(card);
+      if (quantityInput) {
+        const syncQuantityInput = (settleEmpty: boolean) => {
+          if (quantityInput.value === "") {
+            if (settleEmpty) {
+              const normalizedQuantity = this.setCardQuantity(card, 0);
+              quantityInput.value = normalizedQuantity.toString();
+            }
+            return;
+          }
+
+          const enteredQuantity = quantityInput.valueAsNumber;
+          if (!isFinite(enteredQuantity)) {
+            return;
+          }
+
+          const normalizedQuantity = this.setCardQuantity(
+            card,
+            enteredQuantity
+          );
+          // If the normalized value already matched data-quantity, no observer
+          // record is produced; canonicalize the typed display immediately.
+          if (quantityInput.value !== normalizedQuantity.toString()) {
+            quantityInput.value = normalizedQuantity.toString();
+          }
+        };
+
+        quantityInput.addEventListener("input", () => {
+          syncQuantityInput(false);
+        });
+        quantityInput.addEventListener("change", () => {
+          syncQuantityInput(true);
+        });
+        quantityInput.addEventListener("blur", () => {
+          syncQuantityInput(true);
+        });
+
+        quantityInput.addEventListener("keydown", (e) => {
+          const increaseKeys = ["ArrowUp", "ArrowRight", "+", "="];
+          const decreaseKeys = ["ArrowDown", "ArrowLeft", "-", "_"];
+
+          if (increaseKeys.indexOf(e.key) !== -1) {
+            e.preventDefault();
+            this.increaseQuantity(card);
+            return;
+          }
+          if (decreaseKeys.indexOf(e.key) !== -1) {
+            e.preventDefault();
+            const willZero = this.getCardQuantity(card) === 1;
+            this.decreaseQuantity(card);
+            if (willZero) {
+              this.returnFocusToAddButton(card);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  private returnFocusToAddButton(card: HTMLElement) {
+    if (!card.classList.contains("sc-card-has-add")) {
+      return;
+    }
+    const back = card.querySelector(".sc-add-back");
+    if (!back || !back.contains(document.activeElement)) {
+      return;
+    }
+    const frontButton = card.querySelector(
+      ".sc-add-button"
+    ) as HTMLButtonElement | null;
+    if (frontButton) {
+      window.setTimeout(() => {
+        frontButton.focus();
+      }, 0);
+    }
+  }
+
+  private addKeyboardHelp() {
+    let shown = false;
+    document.addEventListener("keydown", (e) => {
+      if (shown || e.key !== "Tab") {
+        return;
+      }
+      const cards = document.querySelector(".sc-cards");
+      const cardsParent = cards?.parentNode as HTMLElement | null;
+      const grandparent = cardsParent?.parentNode;
+      if (!cards || !cardsParent || !grandparent) {
+        return;
+      }
+      shown = true;
+      const banner = document.createElement("div");
+      banner.className = "sc-keyboard-help";
+      banner.setAttribute("role", "status");
+      banner.setAttribute("aria-live", "polite");
+      grandparent.insertBefore(banner, cardsParent);
+      window.setTimeout(() => {
+        banner.textContent =
+          "Keyboard navigation: Tab moves between items. Left/Right arrows or -/+ keys adjust quantity. Press H on any item to jump to the checkout form.";
+      }, 0);
+    });
+  }
+
+  private addCheckoutHotkey() {
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey || e.altKey || e.metaKey) {
+        return;
+      }
+      if (e.key !== "h" && e.key !== "H") {
+        return;
+      }
+      const cards = document.querySelector(".sc-cards");
+      if (!cards || !cards.contains(document.activeElement)) {
+        return;
+      }
+      const email = document.querySelector(
+        "[name='supporter.emailAddress']"
+      ) as HTMLElement | null;
+      if (!email) {
+        return;
+      }
+      e.preventDefault();
+      email.scrollIntoView({ block: "center" });
+      email.focus();
     });
   }
 

@@ -97,14 +97,40 @@
         background-image: url("data:image/svg+xml;charset=UTF-8, <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='15' cy='15' r='14.5' stroke='%23606062'/><rect x='11' y='15' width='8' height='1' fill='%23606062'/><rect x='15.5' y='11.5' width='8' height='1' transform='rotate(90 15.5 11.5)' fill='%23606062'/></svg>");
       }
 
-      .quantity {
-        font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
-        font-weight: bold;
-        font-size: 32px;
-        margin: 0 6px;
+      &:not(.sc-cards-with-add) > input.quantity {
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+        appearance: none;
+        box-sizing: border-box;
         width: 60px;
-        text-align: center;
+        height: 30px;
+        margin: 0 6px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 32px;
+        font-weight: bold;
         line-height: 30px;
+        text-align: center;
+
+        &:focus,
+        &:focus-visible {
+          outline: none;
+        }
+      }
+
+      &:not(.sc-cards-with-add) > input.quantity::-webkit-inner-spin-button,
+      &:not(.sc-cards-with-add) > input.quantity::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &:not(.sc-cards-with-add):focus-within {
+        outline: 2px solid #3678ba;
+        outline-offset: 2px;
+        border-radius: 4px;
       }
       & + p {
         position: absolute;
@@ -308,6 +334,11 @@
         border: 2px solid var(--sc-add-back-border);
         transform: rotateY(180deg);
 
+        &:focus-within {
+          outline: 2px solid var(--sc-add-back-border);
+          outline-offset: 2px;
+        }
+
         * {
           color: var(--sc-add-back-text) !important;
         }
@@ -354,11 +385,34 @@
         }
 
         .quantity {
+          -webkit-appearance: none;
+          -moz-appearance: textfield;
+          appearance: none;
+          box-sizing: border-box;
+          width: 2.4ch;
+          min-width: 30px;
+          padding: 0;
+          border: 0;
+          background: transparent;
+          color: inherit;
           font-family: "Nunito", "Raleway", Helvetica, Roboto, Arial, sans-serif;
           font-size: 22px;
           font-weight: 800;
           margin: 0;
           line-height: 1;
+
+          &:focus,
+          &:focus-visible {
+            outline: none;
+          }
+          text-align: center;
+          pointer-events: auto;
+
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
         }
 
         .sc-add-quantity-label-text {
@@ -539,7 +593,8 @@
           transition: transform 0.6s;
           transform-style: preserve-3d;
 
-          img {
+          img,
+          canvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -554,6 +609,10 @@
             &.sc-card-image-back {
               transform: rotateY(180deg);
             }
+          }
+
+          canvas.sc-frozen-frame {
+            display: none;
           }
         }
       }
@@ -675,7 +734,73 @@
           border: 0;
           box-shadow: none;
           background-color: #fff;
+
+          &#sc-other-amount:focus-visible {
+            outline: 2px solid #3678ba;
+            outline-offset: 2px;
+          }
         }
+      }
+    }
+  }
+}
+
+.sc-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sc-keyboard-help {
+  max-width: 1040px;
+  margin: 16px auto 0;
+  padding: 10px 16px;
+  background: #3678ba;
+  color: #fff;
+  border-radius: 8px;
+  font-family: inherit, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-cards {
+    .en__component--copyblock,
+    .sc-card-image-inner,
+    .sc-add-inner,
+    .sc-add-button,
+    .sc-add-emoji,
+    .sc-add-text,
+    .sc-add-emoji img,
+    .decrease,
+    .increase {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .sc-add-emoji-animated {
+      display: none !important;
+    }
+
+    .sc-add-emoji-static {
+      display: inline !important;
+      opacity: 1 !important;
+    }
+
+    .sc-card-image-flip {
+      img.sc-has-frozen-frame {
+        display: none !important;
+      }
+
+      canvas.sc-frozen-frame {
+        display: block !important;
       }
     }
   }
