@@ -625,6 +625,7 @@ export class App {
   private addOtherAmount() {
     const blockOther = document.querySelector(".block-other") as HTMLDivElement;
     if (blockOther) {
+      blockOther.removeAttribute("tabindex");
       const otherStored =
         localStorage.getItem(`sc-cards-${this.getPageId()}-other`) || "0";
       if (otherStored !== "0") {
@@ -636,7 +637,7 @@ export class App {
       otherAmountWrapper.classList.add("block-other-amount");
       otherAmountWrapper.innerHTML = `
       <span class="currency-symbol">${currency}</span>
-      <input id="sc-other-amount" aria-label="Enter your custom donation amount" name="transaction.donationAmt.other-standin" type="text" inputmode="decimal" data-lpignore="true" autocomplete="off" value="${otherStored}" tabindex="1" placeholder="0" />
+      <input id="sc-other-amount" aria-label="Enter your custom donation amount" name="transaction.donationAmt.other-standin" type="text" inputmode="decimal" data-lpignore="true" autocomplete="off" value="${otherStored}" placeholder="0" />
       <span class="currency-code">${currencyCode}</span>
       `;
       blockOther.appendChild(otherAmountWrapper);
