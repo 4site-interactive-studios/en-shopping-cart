@@ -114,6 +114,11 @@
         font-weight: bold;
         line-height: 30px;
         text-align: center;
+
+        &:focus,
+        &:focus-visible {
+          outline: none;
+        }
       }
 
       &:not(.sc-cards-with-add) > input.quantity::-webkit-inner-spin-button,
@@ -395,6 +400,11 @@
           font-weight: 800;
           margin: 0;
           line-height: 1;
+
+          &:focus,
+          &:focus-visible {
+            outline: none;
+          }
           text-align: center;
           pointer-events: auto;
 
